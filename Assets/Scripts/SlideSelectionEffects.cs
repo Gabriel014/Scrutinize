@@ -17,7 +17,8 @@ public class SlideSelectionEffects : MonoBehaviour {
 		intervals = (float)((1/buttonsNumbers)/2);
 	}
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		
 		//PARA ANDROID
 		/*
@@ -49,7 +50,6 @@ public class SlideSelectionEffects : MonoBehaviour {
         
         if (move)
         {
-			print(intervals);
 			for (int i = 0; i < LevelButtons.Count; i++)
 			{
 				if (Slider.GetComponent<Scrollbar>().value <  intervals+((1/buttonsNumbers)*i))
@@ -67,5 +67,14 @@ public class SlideSelectionEffects : MonoBehaviour {
 			}
 
 		}
+
+	}
+	public void LeftScroll()
+	{
+		Slider.GetComponent<Scrollbar>().value = Slider.GetComponent<Scrollbar>().value-0.25f;
+	}
+	public void RightScroll()
+	{
+		Slider.GetComponent<Scrollbar>().value = Slider.GetComponent<Scrollbar>().value+0.25f;
 	}
 }
