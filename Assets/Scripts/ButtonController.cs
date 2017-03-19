@@ -7,7 +7,7 @@ public class ButtonController : MonoBehaviour {
 	bool pressed = false;
 
 
-	public void Pressed()
+	public void Pressed(int card)
 	{
 		if (!pressed)
 		{
@@ -15,12 +15,15 @@ public class ButtonController : MonoBehaviour {
 			CharSelector.contPlayer+=1;
 			pressed = true;
 			gameObject.GetComponent<Image>().color = new Color32 (71,71,71,255);
+			PlayerPrefs.SetInt(("cat"+card.ToString()),1);
 		}
 		else 
 		{
 			CharSelector.contPlayer-=1;
 			pressed = false;
 			gameObject.GetComponent<Image>().color = new Color32 (255,255,255,255);
+			PlayerPrefs.SetInt(("cat"+card.ToString()),0);
+
 		}
 	}
 	void Update()
@@ -33,6 +36,7 @@ public class ButtonController : MonoBehaviour {
 		{
 			gameObject.GetComponent<Button>().interactable = true;
 		}
+
 	}
 
 }

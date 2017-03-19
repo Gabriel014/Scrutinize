@@ -11,6 +11,12 @@ public class CharSelector : MonoBehaviour {
 	void  Start ()
 	{
 		contPlayer=0;
+		PlayerPrefs.SetInt("cat1",0);
+		PlayerPrefs.SetInt("cat2",0);
+		PlayerPrefs.SetInt("cat3",0);
+		PlayerPrefs.SetInt("cat4",0);
+		PlayerPrefs.SetInt("cat5",0);
+
 	}
 
 	void Update()
