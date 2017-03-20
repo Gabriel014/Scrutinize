@@ -24,18 +24,18 @@ public class TestManager : MonoBehaviour
             int testStat = Random.Range(1, 4); //1 = Braveness, 2 = Agility, 3 = Cuteness
         
             diceNumberRandomizer = Random.Range(currentLevel - 2, currentLevel + 2); //Randomizes the test dice amount
-            if (diceNumberRandomizer < 1) diceNumberRandomizer = 1
-                    ;
+            if (diceNumberRandomizer < 1) diceNumberRandomizer = 1;
+
             testDif = Random.Range(1, 7); //Randomizes the test difficulty
 
             defined = true;
 
-            ChangeButtonTest(testStat);
+            ChangeButtonText(testStat);
             PlayTestAnimation(testStat);
         }
     }
 
-    public void ChangeButtonTest(int testStat)
+    public void ChangeButtonText(int testStat)
     {
         Debug.Log(testStat);
         switch (testStat)
