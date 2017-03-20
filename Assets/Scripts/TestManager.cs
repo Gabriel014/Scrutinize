@@ -5,12 +5,18 @@ using UnityEngine.UI;
 
 public class TestManager : MonoBehaviour
 {
-
+    public GameObject testCard;
+    GameObject[] mapButtons;
     public int testStat;
     public int diceNumberRandomizer;
     public int testDif;
     public bool defined = false;
     public Text testText;
+
+    void Start()
+    {
+         mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
+    }
 
     public void TestGeneration(int currentLevel)
     {
@@ -25,6 +31,7 @@ public class TestManager : MonoBehaviour
             defined = true;
 
             ChangeButtonTest(testStat);
+            PlayTestAnimation(testStat);
         }
     }
 
@@ -47,6 +54,15 @@ public class TestManager : MonoBehaviour
                 testText.text = "D:" + diceNumberRandomizer + "\nC:" + testDif;
                 Debug.Log("Changing Text");
                 break;
+        }
+    }
+
+    public void PlayTestAnimation(int testStat)
+    {
+        testCard.GetComponent<Animator>().Play("Show");
+        foreach (GameObject obj in mapButtons)
+        {
+            obj.GetComponent<Button>().interactable = false;
         }
     }
 
