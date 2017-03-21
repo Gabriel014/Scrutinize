@@ -7,6 +7,8 @@ public class TestManager : MonoBehaviour
 {
     public GameObject testCard;
     GameObject[] mapButtons;
+    int[] catList;
+    public GameObject catCard;
     public int testStat;
     public int diceNumberRandomizer;
     public int testDif;
@@ -64,6 +66,16 @@ public class TestManager : MonoBehaviour
         {
             obj.GetComponent<Button>().interactable = false;
         }
+    }
+
+    public void CatSelection(int selectedCat)
+    {
+        testCard.GetComponent<Animator>().Play("CatSelection");
+        selectedCat = catList[selectedCat]; 
+        //Changes cat number (the selected button number) with the cat on that position
+        //i.e: if the cat in the position 2 (second button) was selected and that cat is
+        //the cat number 4 in the cat list, the selected cat becomes number 4 for atb calls
+
     }
 
 }
