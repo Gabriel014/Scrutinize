@@ -70,12 +70,7 @@ public class TestManager : MonoBehaviour
 
     public void CatSelection(int selectedCat)
     {
-        testCard.GetComponent<Animator>().Play("CatSelection");
-        selectedCat = catList[selectedCat]; 
-        //Changes cat number (the selected button number) with the cat on that position
-        //i.e: if the cat in the position 2 (second button) was selected and that cat is
-        //the cat number 4 in the cat list, the selected cat becomes number 4 for atb calls
-
+        testCard.GetComponent<Animator>().Play("CatSelection");        
     }
 
 }
