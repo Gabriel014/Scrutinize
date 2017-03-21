@@ -7,7 +7,7 @@ public class ProgrammerTest : MonoBehaviour
     // Use this for initialization
 
     [ContextMenu("Clear PlayerPrefs")]
-    void ClearPlayerPrefs()
+    public void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
     }
