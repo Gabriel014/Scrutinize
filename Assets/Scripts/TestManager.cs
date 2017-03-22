@@ -14,6 +14,11 @@ public class TestManager : MonoBehaviour
     public int testDif;
     public bool defined = false;
     public Text testText;
+	int diceRoll;
+	string catTested;
+	int testSuccessCounter = 0; 
+	int diceTestRoll;
+	bool testSuccess = false;
 
     void Start()
     {
@@ -23,12 +28,12 @@ public class TestManager : MonoBehaviour
     public void TestGeneration(int currentLevel)
     {
         if (!defined) {
-            int testStat = Random.Range(1, 4); //1 = Braveness, 2 = Agility, 3 = Cuteness
+            testStat = Random.Range(0, 3); //0 = Braveness, 1 = Agility, 2 = Cuteness
         
-            diceNumberRandomizer = Random.Range(currentLevel - 2, currentLevel + 2); //Randomizes the test dice amount
+            diceNumberRandomizer = Random.Range(currentLevel - 2, currentLevel + 1); //Randomizes the test dice amount
             if (diceNumberRandomizer < 1) diceNumberRandomizer = 1;
 
-            testDif = Random.Range(1, 7); //Randomizes the test difficulty
+            testDif = Random.Range(2, 7); //Randomizes the test difficulty
 
             defined = true;
 
@@ -42,17 +47,17 @@ public class TestManager : MonoBehaviour
         Debug.Log(testStat);
         switch (testStat)
         {
-            case 1: //braveness
+            case 0: //braveness
                 testText.text = "D:" + diceNumberRandomizer + "\nB:" + testDif;
                 Debug.Log("Changing Text");
                 break;
 
-            case 2: //agility
+            case 1: //agility
                 testText.text = "D:" + diceNumberRandomizer + "\nA:" + testDif;
                 Debug.Log("Changing Text");
                 break;
 
-            case 3: //cuteness
+            case 2: //cuteness
                 testText.text = "D:" + diceNumberRandomizer + "\nC:" + testDif;
                 Debug.Log("Changing Text");
                 break;
@@ -70,7 +75,33 @@ public class TestManager : MonoBehaviour
 
     public void CatSelection(int selectedCat)
     {
-        testCard.GetComponent<Animator>().Play("CatSelection");        
-    }
 
+		switch(selectedCat){
+			case 1:
+				catTested = ButtonController.cat1;
+				break;
+
+			case 2:
+				catTested = ButtonController.cat2;
+				break;
+
+			case 3:
+				catTested = ButtonController.cat3;
+				break;
+		}
+		print("N de dados: " + int.Parse(catTested.Substring(testStat,1)));
+        testCard.GetComponent<Animator>().Play("CatSelection");
+		for (int i = 0; i < int.Parse(catTested.Substring(testStat,1)); i++)
+		{
+			diceTestRoll = Random.Range(1, 7);
+			print ("Resultado da Rolagem: "+diceTestRoll);
+			if (diceTestRoll >= testDif) testSuccessCounter += 1;
+				
+			if (testSuccessCounter >= diceNumberRandomizer) 
+			{
+				testSuccess = true;
+				print("Success!");
+		  	}
+		}
+	}
 }

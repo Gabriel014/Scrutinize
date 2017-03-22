@@ -9,9 +9,10 @@ public class ButtonController : MonoBehaviour {
 	public List<Image> catThumb;
 	public List<Sprite> catSprites;
 	bool isOnList;
+	public static string cat1, cat2, cat3;
 
 
-	public void Pressed(string card) //string contém 4 numeros sendo força, agilidade, fofura i ID respectivamente.
+	public void Pressed(string card) //string contém 4 numeros sendo força, agilidade, fofura e ID respectivamente.
 	{
 		isOnList = false;
 		for(int i = 0; i < 3; i++)
@@ -44,9 +45,9 @@ public class ButtonController : MonoBehaviour {
 
 	public void ConfirmSelection()
 	{
-		print("cat1 "+selectedCats[0]);
-		print("cat2 "+selectedCats[1]);
-		print("cat3 "+selectedCats[2]);
+		cat1 = selectedCats[0];
+		cat2 = selectedCats[1];
+		cat3 = selectedCats[2];
 
 	}
 
