@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ButtonController : MonoBehaviour {
 	public List<int> index;
 	public List<string> selectedCats;
-	public Image cat0,cat1,cat2;
-	public Sprite imgCat0, imgCat1, imgCat2;
+	public List<Image> catThumb;
+	public List<Sprite> catSprites;
 	bool isOnList;
 
 
@@ -21,6 +21,7 @@ public class ButtonController : MonoBehaviour {
 				isOnList = true;//indica que o carda ja está na lista
 				index[i] = 0; // se ele já está na lista e foi clicado novamene, significa que foi desmarcado. Logo, tem que ser removido;
 				selectedCats[i] = "";
+				catThumb[i].GetComponent<Image>().sprite=catSprites[0]; //zera a thumbnail da hud nesta posição
 				break; //finaliza o evento
 			}
 		}
@@ -33,12 +34,13 @@ public class ButtonController : MonoBehaviour {
 					index[i] = int.Parse(card.Substring(3));// e adiciona-se este card na lista
 					selectedCats[i] = card.Substring(0,4);
 					print(i+" index "+selectedCats[i]);
+					catThumb[i].GetComponent<Image>().sprite=catSprites[int.Parse(card.Substring(3))];//coloca a thumbnail do personagem que foi selecionado;
 					break;
 				}
 			}
 		}
 	}
-
+		
 
 	public void ConfirmSelection()
 	{
