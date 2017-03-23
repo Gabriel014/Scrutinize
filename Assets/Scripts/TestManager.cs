@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TestManager : MonoBehaviour
 {
-    public GameObject testCard;
+    public GameObject testCard, challengeButton;
     GameObject[] mapButtons;
     int[] catList;
     public GameObject catCard, okButton;
@@ -195,6 +195,20 @@ public class TestManager : MonoBehaviour
             case 5:
                 catCard.GetComponent<Image>().sprite = catImage[4];
                 break;
+        }
+    }
+
+    public void OkButton()
+    {
+        if (testSuccess)
+        {
+            //The artifact/trap/creature randomizer must be done in this if
+            Destroy(challengeButton);
+        }
+        else
+        {
+            //Reset all animations
+            testText.text = "?";
         }
     }
 }
