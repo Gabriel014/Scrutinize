@@ -12,9 +12,9 @@ public class TestManager : MonoBehaviour
     public int testStat;
     public int diceNumberRandomizer;
     public int testDif;
-    public List<Sprite> catImage;
+    public List<Sprite> catImage, challengeImage;
     public bool defined = false;
-    public Text testText;
+    public Text testText, dicesNumber, testNumber;
 	int diceRoll, diceNumber;
 	string catTested, diceInfo;
 	int testSuccessCounter = 0; 
@@ -67,17 +67,33 @@ public class TestManager : MonoBehaviour
 
     public void PlayTestAnimation(int testStat)
     {
-        testCard.GetComponent<Animator>().Play("Show");
+        switch (testStat) //Changes the test image according to the atb being tested
+        {
+            case 0:
+                testCard.GetComponent<Image>().sprite = challengeImage[0];
+                break;
+            case 1:
+                testCard.GetComponent<Image>().sprite = challengeImage[1];
+                break;
+            case 2:
+                testCard.GetComponent<Image>().sprite = challengeImage[2];
+                break;
+        }
+
+        testCard.GetComponent<Animator>().Play("Show"); //Play the animation which shows the challenge card
         foreach (GameObject obj in mapButtons)
         {
-            obj.GetComponent<Button>().interactable = false;
+            obj.GetComponent<Button>().interactable = false; //Disable all other buttons but the cats
         }
     }
 
     public void CatSelection(int selectedCat)
     {
 
-		switch(selectedCat){
+        dicesNumber.text = "" + diceNumberRandomizer;
+        testNumber.text = "" + testDif;
+
+		switch(selectedCat){ //Changes the catTested with the parameters from the cat allocated in each cat spot
 			case 1:
 				catTested = ButtonController.cat1;
 				break;
