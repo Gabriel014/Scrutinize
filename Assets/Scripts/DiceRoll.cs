@@ -9,7 +9,7 @@ public class DiceRoll : MonoBehaviour {
 	public List<Sprite> diceSides;
 	float position = 7;
 
-	public void StartRoll(int diceNumber, string diceInfos)
+	public void StartRoll(int diceNumber, string diceInfos, int testDif)
 	{
 		dices.Clear();
 		for(int i = 0; i < diceNumber; i++)
@@ -24,7 +24,9 @@ public class DiceRoll : MonoBehaviour {
 			dices[i].transform.position= new Vector3(position,-4,1);
 			position-=1.5f;
 			dices[i].GetComponent<Image>().sprite = diceSides[int.Parse(diceInfos.Substring(i,1))-1];
-		}
+			if(int.Parse(diceInfos.Substring(i,1))>=testDif) dices[i].GetComponent<Image>().color = new Color32 (146,255,118,255);
+			else dices[i].GetComponent<Image>().color = new Color32 (255,118,118,255);
+			}
 
 		print(dices.Count);
 		print("numero de dados: "+diceNumber+"; rolagens: "+diceInfos);
