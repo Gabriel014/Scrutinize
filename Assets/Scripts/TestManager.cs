@@ -12,6 +12,7 @@ public class TestManager : MonoBehaviour
     public int testStat;
     public int diceNumberRandomizer;
     public int testDif;
+    public List<Sprite> catImage;
     public bool defined = false;
     public Text testText;
 	int diceRoll, diceNumber;
@@ -109,4 +110,33 @@ public class TestManager : MonoBehaviour
 		GameObject.Find("Main Camera").GetComponent<DiceRoll>().StartRoll(diceNumber,diceInfo);
 
 	}
+
+    public void ChangeCardImage()
+    {
+        //In case more cats are added, we have to increase the cases number!!!
+        int catId = int.Parse(catTested.Substring(3, 1));
+
+        switch (catId)
+        {
+            case 1:
+                catCard.GetComponent<Image>().sprite = catImage[0];
+                break;
+
+            case 2:
+                catCard.GetComponent<Image>().sprite = catImage[1];
+                break;
+
+            case 3:
+                catCard.GetComponent<Image>().sprite = catImage[2];
+                break;
+
+            case 4:
+                catCard.GetComponent<Image>().sprite = catImage[3];
+                break;
+
+            case 5:
+                catCard.GetComponent<Image>().sprite = catImage[4];
+                break;
+        }
+    }
 }
