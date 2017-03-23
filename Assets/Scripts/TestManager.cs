@@ -8,17 +8,14 @@ public class TestManager : MonoBehaviour
     public GameObject testCard;
     GameObject[] mapButtons;
     int[] catList;
-    public GameObject catCard;
-    public int testStat;
-    public int diceNumberRandomizer;
-    public int testDif;
+    public GameObject catCard, okButton;
+    public int testStat, diceNumberRandomizer, testDif, cat1Life = 3, cat2Life = 3, cat3Life = 3;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
-    public Text testText, dicesNumber, testNumber;
-	int diceRoll, diceNumber;
-	string catTested, diceInfo;
-	int testSuccessCounter = 0; 
-	int diceTestRoll;
+    public Text testText, dicesNumber, testNumber, testResult;
+    public Button cat1Button, cat2Button, cat3Button;
+    int currentDisabledCat = 3, diceRoll, diceNumber, diceTestRoll, testSuccessCounter = 0;
+    string catTested, diceInfo;
 	bool testSuccess = false;
 
     void Start()
@@ -80,6 +77,32 @@ public class TestManager : MonoBehaviour
                 break;
         }
 
+
+        dicesNumber.text = "" + diceNumberRandomizer; 
+        testNumber.text = "" + testDif;
+        //Changes the test values on the card
+
+        if (cat1Life > 0) cat1Button.interactable = true; else cat1Button.interactable = false;
+        if (cat2Life > 0) cat2Button.interactable = true; else cat2Button.interactable = false;
+        if (cat3Life > 0) cat3Button.interactable = true; else cat3Button.interactable = false;
+        //Temporarily enable all cats buttons but just if its life is not 0, if it is then disable it for good
+
+        switch (currentDisabledCat)
+        {
+            case 0:
+                cat1Button.interactable = false;
+                break;
+            case 1:
+                cat2Button.interactable = false;
+                break;
+            case 2:
+                cat3Button.interactable = false;
+                break;
+            case 3:
+                break;
+        }
+        //Then disables the last used cat button
+
         testCard.GetComponent<Animator>().Play("Show"); //Play the animation which shows the challenge card
         foreach (GameObject obj in mapButtons)
         {
@@ -90,19 +113,16 @@ public class TestManager : MonoBehaviour
     public void CatSelection(int selectedCat)
     {
 
-        dicesNumber.text = "" + diceNumberRandomizer;
-        testNumber.text = "" + testDif;
-
-		switch(selectedCat){ //Changes the catTested with the parameters from the cat allocated in each cat spot
-			case 1:
+        switch (selectedCat){ //Changes the catTested with the parameters from the cat allocated in each cat spot
+			case 0:
 				catTested = ButtonController.cat1;
 				break;
 
-			case 2:
+			case 1:
 				catTested = ButtonController.cat2;
 				break;
 
-			case 3:
+			case 2:
 				catTested = ButtonController.cat3;
 				break;
 		}
@@ -120,11 +140,33 @@ public class TestManager : MonoBehaviour
 			if (testSuccessCounter >= diceNumberRandomizer) 
 			{
 				testSuccess = true;
-				print("Success!");
+                testResult.color = Color.green;
+                testResult.text = "Success!!";
 		  	}
+            else
+            {
+                testResult.color = Color.red;
+                testResult.text = "Fail!!";
+                //In case of fail, decreases this cat life
+                switch (selectedCat)
+                {
+                    case 1:
+                        cat1Life -= 1;
+                        break;
+                    case 2:
+                        cat2Life -= 1;
+                        break;
+                    case 3:
+                        cat3Life -= 1;
+                        break;
+                }
+            }
+
+            okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+            
 		}
 		GameObject.Find("Main Camera").GetComponent<DiceRoll>().StartRoll(diceNumber,diceInfo);
-
+        currentDisabledCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
 	}
 
     public void ChangeCardImage()
