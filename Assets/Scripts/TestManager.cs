@@ -14,8 +14,8 @@ public class TestManager : MonoBehaviour
     public int testDif;
     public bool defined = false;
     public Text testText;
-	int diceRoll;
-	string catTested;
+	int diceRoll, diceNumber;
+	string catTested, diceInfo;
 	int testSuccessCounter = 0; 
 	int diceTestRoll;
 	bool testSuccess = false;
@@ -89,11 +89,14 @@ public class TestManager : MonoBehaviour
 				catTested = ButtonController.cat3;
 				break;
 		}
-		print("N de dados: " + int.Parse(catTested.Substring(testStat,1)));
+
+		diceNumber = int.Parse(catTested.Substring(testStat,1));
+		print("N de dados: " + diceNumber);
         testCard.GetComponent<Animator>().Play("CatSelection");
-		for (int i = 0; i < int.Parse(catTested.Substring(testStat,1)); i++)
+		for (int i = 0; i < diceNumber; i++)
 		{
 			diceTestRoll = Random.Range(1, 7);
+			diceInfo+=diceTestRoll;
 			print ("Resultado da Rolagem: "+diceTestRoll);
 			if (diceTestRoll >= testDif) testSuccessCounter += 1;
 				
@@ -103,5 +106,7 @@ public class TestManager : MonoBehaviour
 				print("Success!");
 		  	}
 		}
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().StartRoll(diceNumber,diceInfo);
+
 	}
 }
