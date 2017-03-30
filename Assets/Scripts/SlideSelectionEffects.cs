@@ -19,9 +19,16 @@ public class SlideSelectionEffects : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		
-		//PARA ANDROID
-		/*
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) // forward
+ {
+            Slider.GetComponent<Scrollbar>().value = Slider.GetComponent<Scrollbar>().value + 0.25f;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) // back
+ {
+            Slider.GetComponent<Scrollbar>().value = Slider.GetComponent<Scrollbar>().value - 0.25f;
+        }
+        //PARA ANDROID
+        /*
         if (Input.touches.Length > 0)
         {
             Touch t = Input.GetTouch(0);

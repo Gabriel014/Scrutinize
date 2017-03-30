@@ -11,6 +11,7 @@ public class DiceRoll : MonoBehaviour {
 
 	public void StartRoll(int diceNumber, string diceInfos, int testDif)
 	{
+        position = 7;
 		dices.Clear();
 		for(int i = 0; i < diceNumber; i++)
 		{

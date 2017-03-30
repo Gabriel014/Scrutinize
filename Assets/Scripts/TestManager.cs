@@ -16,7 +16,7 @@ public class TestManager : MonoBehaviour
     public Button cat1Button, cat2Button, cat3Button;
     int currentDisabledCat = 3, diceRoll, diceNumber, diceTestRoll, testSuccessCounter = 0;
     string catTested, diceInfo;
-	bool testSuccess = false;
+    bool testSuccess = false;
 
     void Start()
     {
@@ -25,9 +25,10 @@ public class TestManager : MonoBehaviour
 
     public void TestGeneration(int currentLevel)
     {
-        if (!defined) {
+        if (!defined)
+        {
             testStat = Random.Range(0, 3); //0 = Braveness, 1 = Agility, 2 = Cuteness
-        
+
             diceNumberRandomizer = Random.Range(currentLevel - 2, currentLevel + 1); //Randomizes the test dice amount
             if (diceNumberRandomizer < 1) diceNumberRandomizer = 1;
 
@@ -38,6 +39,8 @@ public class TestManager : MonoBehaviour
             ChangeButtonText(testStat);
             PlayTestAnimation(testStat);
         }
+
+        else PlayTestAnimation(testStat);
     }
 
     public void ChangeButtonText(int testStat)
@@ -130,7 +133,7 @@ public class TestManager : MonoBehaviour
 		diceNumber = int.Parse(catTested.Substring(testStat,1));
 		print("N de dados: " + diceNumber);
         testCard.GetComponent<Animator>().Play("CatSelection");
-		for (int i = 0; i < diceNumber; i++)
+        for (int i = 0; i < diceNumber; i++)
 		{
 			diceTestRoll = Random.Range(1, 7);
 			diceInfo+=diceTestRoll;
@@ -200,6 +203,24 @@ public class TestManager : MonoBehaviour
 
     public void OkButton()
     {
+        GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
+
+        foreach (GameObject obj in diceList)        
+        {
+            Destroy(obj);
+        }
+
+        okButton.transform.localScale = new Vector3(0f, 0f, 0f);
+
+        foreach (GameObject obj in mapButtons)
+        {
+            obj.GetComponent<Button>().interactable = true; //Disable all other buttons but the cats
+        }
+
+        testResult.text = "";
+
+        diceInfo = "";
+
         if (testSuccess)
         {
             //The artifact/trap/creature randomizer must be done in this if
@@ -208,7 +229,7 @@ public class TestManager : MonoBehaviour
         else
         {
             //Reset all animations
-            testText.text = "?";
+            testCard.GetComponent<Animator>().Play("New State");
         }
     }
 }
