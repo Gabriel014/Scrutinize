@@ -168,7 +168,7 @@ public class TestManager : MonoBehaviour
             okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
             
 		}
-		GameObject.Find("Main Camera").GetComponent<DiceRoll>().StartRoll(diceNumber,diceInfo,testDif);
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber,diceInfo,testDif);
         currentDisabledCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
 	}
 

@@ -7,11 +7,16 @@ public class DiceRoll : MonoBehaviour {
 	public GameObject dicePrefab;
 	public List<GameObject> dices;
 	public List<Sprite> diceSides;
-	float position = 7;
+	float position = 353;
 
-	public void StartRoll(int diceNumber, string diceInfos, int testDif)
+	public void RollDices(int diceNumber, string diceInfos, int testDif){
+		
+		StartCoroutine(StartRoll(diceNumber,diceInfos,testDif));
+	}
+
+	public IEnumerator StartRoll(int diceNumber, string diceInfos, int testDif)
 	{
-        position = 7;
+        position = 353;
 		dices.Clear();
 		for(int i = 0; i < diceNumber; i++)
 		{
@@ -19,12 +24,19 @@ public class DiceRoll : MonoBehaviour {
 		}
 		for(int i = 0; i < dices.Count; i++)
 		{
+			
 			dices[i] = Instantiate(Resources.Load("Dice")) as GameObject;
-			dices[i].transform.parent = GameObject.Find("Canvas").transform;
-			dices[i].transform.localScale= new Vector3(60,60,1);
-			dices[i].transform.position= new Vector3(position,-4,1);
-			position-=1.5f;
+			//dices[i].transform.parent = GameObject.Find("Canvas").transform;
+			dices[i].transform.SetParent(GameObject.Find("Canvas").transform,true);
+			dices[i].transform.localScale= new Vector3(30,30,1);
+			dices[i].GetComponent<RectTransform>().localPosition= new Vector3(position,-206,1);
+			position-=90f;
+
+			yield return new WaitForSeconds(1);
+
+			dices[i].GetComponent<Animator>().enabled=false;
 			dices[i].GetComponent<Image>().sprite = diceSides[int.Parse(diceInfos.Substring(i,1))-1];
+
 			if(int.Parse(diceInfos.Substring(i,1))>=testDif) dices[i].GetComponent<Image>().color = new Color32 (146,255,118,255);
 			else dices[i].GetComponent<Image>().color = new Color32 (255,118,118,255);
 			}
@@ -33,4 +45,6 @@ public class DiceRoll : MonoBehaviour {
 		print("numero de dados: "+diceNumber+"; rolagens: "+diceInfos);
 
 	}
+
 }
+
