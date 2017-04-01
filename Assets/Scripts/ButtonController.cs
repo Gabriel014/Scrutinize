@@ -10,6 +10,7 @@ public class ButtonController : MonoBehaviour {
 	public List<Sprite> catSprites;
 	bool isOnList;
 	public static string cat1, cat2, cat3;
+	public static Sprite catThumb1, catThumb2, catThumb3;
 
 
 	public void Pressed(string card) //string contém 4 numeros sendo força, agilidade, fofura e ID respectivamente.
@@ -45,6 +46,10 @@ public class ButtonController : MonoBehaviour {
 
 	public void ConfirmSelection()
 	{
+		catThumb1=catThumb[0].GetComponent<Image>().sprite;
+		catThumb2=catThumb[1].GetComponent<Image>().sprite;
+		catThumb3=catThumb[2].GetComponent<Image>().sprite;
+
 		cat1 = selectedCats[0];
 		cat2 = selectedCats[1];
 		cat3 = selectedCats[2];

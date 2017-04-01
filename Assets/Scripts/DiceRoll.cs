@@ -38,10 +38,11 @@ public class DiceRoll : MonoBehaviour {
 			dices[i].GetComponent<Animator>().enabled=false;
 			dices[i].GetComponent<Image>().sprite = diceSides[int.Parse(diceInfos.Substring(i,1))-1];
 
-			if(int.Parse(diceInfos.Substring(i,1))>=testDif) dices[i].GetComponent<Image>().color = new Color32 (146,255,118,255);
-			else dices[i].GetComponent<Image>().color = new Color32 (255,118,118,255);
+			if(int.Parse(diceInfos.Substring(i,1))>=testDif) dices[i].GetComponent<Image>().color = new Color32 (0,195,0,255);
+			else dices[i].GetComponent<Image>().color = new Color32 (195,0,0,255);
 			}
         testResult.enabled = true;
+		GameObject.Find("Cats_HUD").GetComponent<CatUIController>().LifechangeAnimation();
         print(dices.Count);
 		print("numero de dados: "+diceNumber+"; rolagens: "+diceInfos);
 

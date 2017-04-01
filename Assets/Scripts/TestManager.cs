@@ -9,7 +9,8 @@ public class TestManager : MonoBehaviour
     GameObject[] mapButtons;
     int[] catList;
     public GameObject catCard, okButton;
-    public int testStat, diceNumberRandomizer, testDif, cat1Life = 4, cat2Life = 4, cat3Life = 4;
+	public int testStat, diceNumberRandomizer, testDif;
+	public static int cat1Life = 4, cat2Life=4, cat3Life = 4;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
     public Text testText, dicesNumber, testNumber, testResult;
@@ -30,7 +31,7 @@ public class TestManager : MonoBehaviour
         {
             testStat = Random.Range(0, 3); //0 = Braveness, 1 = Agility, 2 = Cuteness
 
-            diceNumberRandomizer = Random.Range(currentLevel - 2, currentLevel + 1); //Randomizes the test dice amount
+            diceNumberRandomizer = Random.Range(currentLevel-2 , currentLevel + 1); //Randomizes the test dice amount
             if (diceNumberRandomizer < 1) diceNumberRandomizer = 1;
 
             testDif = Random.Range(2, 7); //Randomizes the test difficulty
@@ -131,7 +132,7 @@ public class TestManager : MonoBehaviour
                 catTested = ButtonController.cat3;
                 break;
         }
-
+		diceInfo="";
         diceNumber = int.Parse(catTested.Substring(testStat, 1));
         print("N de dados: " + diceNumber);
         testCard.GetComponent<Animator>().Play("CatSelection");
@@ -153,18 +154,21 @@ public class TestManager : MonoBehaviour
                 testResult.color = Color.red;
                 testResult.text = "Fail!!";
                 //In case of fail, decreases this cat life
-                switch (selectedCat)
-                {
-                    case 1:
-                        cat1Life -= 1;
-                        break;
-                    case 2:
-                        cat2Life -= 1;
-                        break;
-                    case 3:
-                        cat3Life -= 1;
-                        break;
-                }
+				if(i==diceNumber-1)
+				{
+                	switch (selectedCat)
+                	{
+                    	case 0:
+                        	cat1Life -= 1;
+                        	break;
+                    	case 1:
+                        	cat2Life -= 1;
+	                        break;
+    	                case 2:
+        	                cat3Life -= 1;
+                	        break;
+                	}
+				}
             }
 
             okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
@@ -268,13 +272,13 @@ public class TestManager : MonoBehaviour
         if (!testSuccess) {
             switch (battlingCat)
             {
-                case 1:
+                case 0:
                     cat1Life -= 1;
                     break;
-                case 2:
+                case 1:
                     cat2Life -= 1;
                     break;
-                case 3:
+                case 2:
                     cat3Life -= 1;
                     break;
             }
