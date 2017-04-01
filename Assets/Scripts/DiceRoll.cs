@@ -8,6 +8,7 @@ public class DiceRoll : MonoBehaviour {
 	public List<GameObject> dices;
 	public List<Sprite> diceSides;
 	float position = 353;
+    public Text testResult;
 
 	public void RollDices(int diceNumber, string diceInfos, int testDif){
 		
@@ -40,11 +41,10 @@ public class DiceRoll : MonoBehaviour {
 			if(int.Parse(diceInfos.Substring(i,1))>=testDif) dices[i].GetComponent<Image>().color = new Color32 (146,255,118,255);
 			else dices[i].GetComponent<Image>().color = new Color32 (255,118,118,255);
 			}
-
-		print(dices.Count);
+        testResult.enabled = true;
+        print(dices.Count);
 		print("numero de dados: "+diceNumber+"; rolagens: "+diceInfos);
 
 	}
-
 }
 

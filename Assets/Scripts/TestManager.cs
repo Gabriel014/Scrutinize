@@ -9,18 +9,19 @@ public class TestManager : MonoBehaviour
     GameObject[] mapButtons;
     int[] catList;
     public GameObject catCard, okButton;
-    public int testStat, diceNumberRandomizer, testDif, cat1Life = 3, cat2Life = 3, cat3Life = 3;
+    public int testStat, diceNumberRandomizer, testDif, cat1Life = 4, cat2Life = 4, cat3Life = 4;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
     public Text testText, dicesNumber, testNumber, testResult;
     public Button cat1Button, cat2Button, cat3Button;
-    int currentDisabledCat = 3, diceRoll, diceNumber, diceTestRoll, testSuccessCounter = 0;
+    int currentDisabledCat = 3, diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice,
+        diceTestRoll, battlingCat, testSuccessCounter = 0;
     string catTested, diceInfo;
     bool testSuccess = false;
 
     void Start()
     {
-         mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
+        mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
     }
 
     public void TestGeneration(int currentLevel)
@@ -81,7 +82,7 @@ public class TestManager : MonoBehaviour
         }
 
 
-        dicesNumber.text = "" + diceNumberRandomizer; 
+        dicesNumber.text = "" + diceNumberRandomizer;
         testNumber.text = "" + testDif;
         //Changes the test values on the card
 
@@ -115,37 +116,38 @@ public class TestManager : MonoBehaviour
 
     public void CatSelection(int selectedCat)
     {
+        battlingCat = selectedCat; //Sets the selected cat as the cat who will be used during battle
 
-        switch (selectedCat){ //Changes the catTested with the parameters from the cat allocated in each cat spot
-			case 0:
-				catTested = ButtonController.cat1;
-				break;
+        switch (selectedCat) { //Changes the catTested with the parameters from the cat allocated in each cat spot
+            case 0:
+                catTested = ButtonController.cat1;
+                break;
 
-			case 1:
-				catTested = ButtonController.cat2;
-				break;
+            case 1:
+                catTested = ButtonController.cat2;
+                break;
 
-			case 2:
-				catTested = ButtonController.cat3;
-				break;
-		}
+            case 2:
+                catTested = ButtonController.cat3;
+                break;
+        }
 
-		diceNumber = int.Parse(catTested.Substring(testStat,1));
-		print("N de dados: " + diceNumber);
+        diceNumber = int.Parse(catTested.Substring(testStat, 1));
+        print("N de dados: " + diceNumber);
         testCard.GetComponent<Animator>().Play("CatSelection");
         for (int i = 0; i < diceNumber; i++)
-		{
-			diceTestRoll = Random.Range(1, 7);
-			diceInfo+=diceTestRoll;
-			print ("Resultado da Rolagem: "+diceTestRoll);
-			if (diceTestRoll >= testDif) testSuccessCounter += 1;
-				
-			if (testSuccessCounter >= diceNumberRandomizer) 
-			{
-				testSuccess = true;
+        {
+            diceTestRoll = Random.Range(1, 7);
+            diceInfo += diceTestRoll;
+            print("Resultado da Rolagem: " + diceTestRoll);
+            if (diceTestRoll >= testDif) testSuccessCounter += 1;
+
+            if (testSuccessCounter >= diceNumberRandomizer)
+            {
+                testSuccess = true;
                 testResult.color = Color.green;
                 testResult.text = "Success!!";
-		  	}
+            }
             else
             {
                 testResult.color = Color.red;
@@ -166,11 +168,11 @@ public class TestManager : MonoBehaviour
             }
 
             okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
-            
-		}
-		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber,diceInfo,testDif);
+
+        }
+        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber, diceInfo, testDif);
         currentDisabledCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
-	}
+    }
 
     public void ChangeCardImage()
     {
@@ -204,8 +206,9 @@ public class TestManager : MonoBehaviour
     public void OkButton()
     {
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
+        testResult.enabled = false;
 
-        foreach (GameObject obj in diceList)        
+        foreach (GameObject obj in diceList)
         {
             Destroy(obj);
         }
@@ -216,10 +219,6 @@ public class TestManager : MonoBehaviour
         {
             obj.GetComponent<Button>().interactable = true; //Disable all other buttons but the cats
         }
-
-        testResult.text = "";
-
-        diceInfo = "";
 
         if (testSuccess)
         {
@@ -232,4 +231,88 @@ public class TestManager : MonoBehaviour
             testCard.GetComponent<Animator>().Play("New State");
         }
     }
+
+    public void BattleManager(int monsterDif)
+    {
+        switch (battlingCat)
+        { //Changes the catTested with the parameters from the cat allocated in each cat spot
+            case 0:
+                catTested = ButtonController.cat1;
+                break;
+
+            case 1:
+                catTested = ButtonController.cat2;
+                break;
+
+            case 2:
+                catTested = ButtonController.cat3;
+                break;
+        }
+
+        diceNumber = int.Parse(catTested.Substring(testStat, 1));
+        print("N de dados: " + diceNumber);
+        for (int i = 0; i < diceNumber; i++)
+        {
+            diceTestRoll = Random.Range(1, 7);
+            if (diceTestRoll > playerBiggestDice) playerBiggestDice = diceTestRoll;
+        }
+
+        for (int i = 0; i < monsterDif; i++)
+        {
+            diceTestRoll = Random.Range(1, 7);
+            if (diceTestRoll > monsterBiggestDice) monsterBiggestDice = diceTestRoll;
+        }
+
+        if (playerBiggestDice > monsterBiggestDice) testSuccess = true;
+
+        if (!testSuccess) {
+            switch (battlingCat)
+            {
+                case 1:
+                    cat1Life -= 1;
+                    break;
+                case 2:
+                    cat2Life -= 1;
+                    break;
+                case 3:
+                    cat3Life -= 1;
+                    break;
+            }
+        }
+
+        else
+        {
+            PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold") + Random.Range(20, 50));
+        }
+    }
+
+    public void BattleOkButton()
+    {
+        GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
+        testResult.enabled = false;
+
+        foreach (GameObject obj in diceList)
+        {
+            Destroy(obj);
+        }
+
+        okButton.transform.localScale = new Vector3(0f, 0f, 0f);
+
+        foreach (GameObject obj in mapButtons)
+        {
+            obj.GetComponent<Button>().interactable = true; //Disable all other buttons but the cats
+        }
+
+        if (testSuccess)
+        {
+            //The artifact/trap/creature randomizer must be done in this if
+            Destroy(challengeButton);
+        }
+        else
+        {
+            //Reset all animations
+            testCard.GetComponent<Animator>().Play("New State");
+        }
+    }
+
 }
