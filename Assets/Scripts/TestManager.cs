@@ -5,23 +5,24 @@ using UnityEngine.UI;
 
 public class TestManager : MonoBehaviour
 {
-    public GameObject testCard, challengeButton;
-    GameObject[] mapButtons;
+    public GameObject testCard, challengeButton, catCard, okButton, battleOkButton;
+    GameObject[] mapButtons, battlingCatImage;
     int[] catList;
-    public GameObject catCard, okButton;
-	public int testStat, diceNumberRandomizer, testDif;
+    GameObject currentMonsterButton;
+    public int testStat, diceNumberRandomizer, testDif;
 	public static int cat1Life = 4, cat2Life=4, cat3Life = 4;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
     public Text testText, dicesNumber, testNumber, testResult;
     public Button cat1Button, cat2Button, cat3Button;
-    int currentDisabledCat = 3, diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice,
-        diceTestRoll, battlingCat, testSuccessCounter = 0;
+    int currentDisabledCat = 3, diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice = 7,
+        diceTestRoll, battlingCat, monsterDif, testSuccessCounter = 0;
     string catTested, diceInfo;
     bool testSuccess = false;
 
     void Start()
     {
+        battlingCatImage = GameObject.FindGameObjectsWithTag("Battling Cat");
         mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
     }
 
@@ -117,6 +118,9 @@ public class TestManager : MonoBehaviour
 
     public void CatSelection(int selectedCat)
     {
+
+        testSuccessCounter = 0;
+
         battlingCat = selectedCat; //Sets the selected cat as the cat who will be used during battle
 
         switch (selectedCat) { //Changes the catTested with the parameters from the cat allocated in each cat spot
@@ -142,38 +146,37 @@ public class TestManager : MonoBehaviour
             diceInfo += diceTestRoll;
             print("Resultado da Rolagem: " + diceTestRoll);
             if (diceTestRoll >= testDif) testSuccessCounter += 1;
-
-            if (testSuccessCounter >= diceNumberRandomizer)
-            {
-                testSuccess = true;
-                testResult.color = Color.green;
-                testResult.text = "Success!!";
-            }
-            else
-            {
-                testResult.color = Color.red;
-                testResult.text = "Fail!!";
-                //In case of fail, decreases this cat life
-				if(i==diceNumber-1)
-				{
-                	switch (selectedCat)
-                	{
-                    	case 0:
-                        	cat1Life -= 1;
-                        	break;
-                    	case 1:
-                        	cat2Life -= 1;
-	                        break;
-    	                case 2:
-        	                cat3Life -= 1;
-                	        break;
-                	}
-				}
-            }
-
-            okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
-
         }
+
+        if (testSuccessCounter >= diceNumberRandomizer)
+        {
+            testSuccess = true;
+            testResult.color = Color.green;
+            testResult.text = "Success!!";
+        }
+        
+
+        if (!testSuccess)
+        {
+            testResult.color = Color.red;
+            testResult.text = "Fail!!";
+
+            switch (selectedCat)
+            { 
+                case 0:
+                    cat1Life -= 1;
+                    break;
+                case 1:
+                    cat2Life -= 1;
+                    break;
+                case 2:
+                    cat3Life -= 1;
+                    break;
+            }
+        }
+
+        okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+
         GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber, diceInfo, testDif);
         currentDisabledCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
     }
@@ -187,22 +190,27 @@ public class TestManager : MonoBehaviour
         {
             case 1:
                 catCard.GetComponent<Image>().sprite = catImage[0];
+                foreach (GameObject obj in battlingCatImage) obj.GetComponent<Image>().sprite = catImage[0];
                 break;
 
             case 2:
                 catCard.GetComponent<Image>().sprite = catImage[1];
+                foreach (GameObject obj in battlingCatImage) obj.GetComponent<Image>().sprite = catImage[1];
                 break;
 
             case 3:
                 catCard.GetComponent<Image>().sprite = catImage[2];
+                foreach (GameObject obj in battlingCatImage) obj.GetComponent<Image>().sprite = catImage[2];
                 break;
 
             case 4:
                 catCard.GetComponent<Image>().sprite = catImage[3];
+                foreach (GameObject obj in battlingCatImage) obj.GetComponent<Image>().sprite = catImage[3];
                 break;
 
             case 5:
                 catCard.GetComponent<Image>().sprite = catImage[4];
+                foreach (GameObject obj in battlingCatImage) obj.GetComponent<Image>().sprite = catImage[4];
                 break;
         }
     }
@@ -221,13 +229,16 @@ public class TestManager : MonoBehaviour
 
         foreach (GameObject obj in mapButtons)
         {
-            obj.GetComponent<Button>().interactable = true; //Disable all other buttons but the cats
+            obj.GetComponent<Button>().interactable = true; //Enable all other buttons
         }
 
         if (testSuccess)
         {
+            testText.text = "";
+            gameObject.GetComponent<Image>().enabled = false;
+            gameObject.GetComponent<Button>().enabled = false;
+            testCard.GetComponent<Animator>().Play("New State");
             //The artifact/trap/creature randomizer must be done in this if
-            Destroy(challengeButton);
         }
         else
         {
@@ -236,8 +247,23 @@ public class TestManager : MonoBehaviour
         }
     }
 
-    public void BattleManager(int monsterDif)
-    {
+    public void BattleManager(GameObject monsterButton) {
+
+        currentMonsterButton = monsterButton;
+
+        testSuccess = false;
+
+        monsterButton.GetComponent<Animator>().Play("bossAnimation");
+
+        monsterBiggestDice = 0;
+        playerBiggestDice = 0;
+
+        if (monsterButton.name == "boss1") monsterDif = 3;
+        if (monsterButton.name == "boss2") monsterDif = 4;
+        //Add monster difficult for each monster prefab according to its name
+
+        print("Dificuldade do Monstro: " + monsterDif);
+
         switch (battlingCat)
         { //Changes the catTested with the parameters from the cat allocated in each cat spot
             case 0:
@@ -253,21 +279,28 @@ public class TestManager : MonoBehaviour
                 break;
         }
 
-        diceNumber = int.Parse(catTested.Substring(testStat, 1));
+        diceNumber = int.Parse(catTested.Substring(testStat, 1)); //The atb used to battle is always the last atb used for a test
         print("N de dados: " + diceNumber);
-        for (int i = 0; i < diceNumber; i++)
-        {
-            diceTestRoll = Random.Range(1, 7);
-            if (diceTestRoll > playerBiggestDice) playerBiggestDice = diceTestRoll;
-        }
 
         for (int i = 0; i < monsterDif; i++)
         {
             diceTestRoll = Random.Range(1, 7);
+            print("Monster Roll" + diceTestRoll);
             if (diceTestRoll > monsterBiggestDice) monsterBiggestDice = diceTestRoll;
         }
 
-        if (playerBiggestDice > monsterBiggestDice) testSuccess = true;
+
+        diceInfo = "";
+        for (int i = 0; i < diceNumber; i++)
+        {
+            diceTestRoll = Random.Range(1, 7);
+            print("Player Roll:" + diceTestRoll);
+            diceInfo += diceTestRoll;
+            if (diceTestRoll > playerBiggestDice) playerBiggestDice = diceTestRoll;
+        }
+
+        print("Player Biggest Dice:" + playerBiggestDice + "||| Monster Biggest Dice:" + monsterBiggestDice);
+        if (playerBiggestDice >= monsterBiggestDice) testSuccess = true;
 
         if (!testSuccess) {
             switch (battlingCat)
@@ -287,7 +320,13 @@ public class TestManager : MonoBehaviour
         else
         {
             PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold") + Random.Range(20, 50));
+            print("Battle Successful!");
         }
+
+        battleOkButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+        
+        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber, diceInfo, monsterBiggestDice);
+
     }
 
     public void BattleOkButton()
@@ -300,23 +339,23 @@ public class TestManager : MonoBehaviour
             Destroy(obj);
         }
 
-        okButton.transform.localScale = new Vector3(0f, 0f, 0f);
+        battleOkButton.transform.localScale = new Vector3(0f, 0f, 0f);
 
         foreach (GameObject obj in mapButtons)
         {
-            obj.GetComponent<Button>().interactable = true; //Disable all other buttons but the cats
+            obj.GetComponent<Button>().interactable = true; //Enable other buttons
         }
 
         if (testSuccess)
         {
             //The artifact/trap/creature randomizer must be done in this if
-            Destroy(challengeButton);
+            Destroy(currentMonsterButton);
+            Destroy(gameObject);
         }
         else
         {
             //Reset all animations
-            testCard.GetComponent<Animator>().Play("New State");
+            currentMonsterButton.GetComponent<Animator>().Play("New State");
         }
     }
-
 }
