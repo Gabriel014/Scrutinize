@@ -17,7 +17,7 @@ public class TestManager : MonoBehaviour
     public Button cat1Button, cat2Button, cat3Button;
     int currentDisabledCat = 3, diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice = 7,
         diceTestRoll, battlingCat, monsterDif, testSuccessCounter = 0;
-    string catTested, diceInfo;
+	string catTested, diceInfo, bossDiceInfo;
     bool testSuccess = false;
 
     void Start()
@@ -177,7 +177,7 @@ public class TestManager : MonoBehaviour
 
         okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
 
-        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber, diceInfo, testDif);
+        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("player",diceNumber, diceInfo, testDif);
         currentDisabledCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
     }
 
@@ -281,13 +281,15 @@ public class TestManager : MonoBehaviour
 
         diceNumber = int.Parse(catTested.Substring(testStat, 1)); //The atb used to battle is always the last atb used for a test
         print("N de dados: " + diceNumber);
-
+		bossDiceInfo="";
         for (int i = 0; i < monsterDif; i++)
         {
             diceTestRoll = Random.Range(1, 7);
+			bossDiceInfo+=diceTestRoll;
             print("Monster Roll" + diceTestRoll);
             if (diceTestRoll > monsterBiggestDice) monsterBiggestDice = diceTestRoll;
         }
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("boss",monsterDif, bossDiceInfo,monsterBiggestDice);
 
 
         diceInfo = "";
@@ -301,6 +303,7 @@ public class TestManager : MonoBehaviour
 
         print("Player Biggest Dice:" + playerBiggestDice + "||| Monster Biggest Dice:" + monsterBiggestDice);
         if (playerBiggestDice >= monsterBiggestDice) testSuccess = true;
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("player",diceNumber, diceInfo, monsterBiggestDice);
 
         if (!testSuccess) {
             switch (battlingCat)
@@ -325,7 +328,6 @@ public class TestManager : MonoBehaviour
 
         battleOkButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
         
-        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices(diceNumber, diceInfo, monsterBiggestDice);
 
     }
 
