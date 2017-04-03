@@ -254,7 +254,7 @@ public class TestManager : MonoBehaviour
 
         testSuccess = false;
 
-        monsterButton.GetComponent<Animator>().Play("bossAnimation");
+        //monsterButton.GetComponent<Animator>().Play("bossAnimation");
 
         monsterBiggestDice = 0;
         playerBiggestDice = 0;
@@ -360,7 +360,15 @@ public class TestManager : MonoBehaviour
         else
         {
             //Reset all animations
-            currentMonsterButton.GetComponent<Animator>().Play("New State");
+
+			/*Animator anim=currentMonsterButton.GetComponent<Animator>();
+			anim.speed=-1f;
+			anim.Play("bossAnimation");
+			//animation["bossAnimation"].t = 5.0f;
+			currentMonsterButton.GetComponent<RewardsController>().TurnBack();
+			//currentMonsterButton.GetComponent<Animator>().enabled=false;*/
+			currentMonsterButton.GetComponent<GameObject>();
+			currentMonsterButton.SetActive(false);
         }
     }
 }
