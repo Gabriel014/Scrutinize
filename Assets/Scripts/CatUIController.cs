@@ -31,9 +31,9 @@ public class CatUIController : MonoBehaviour {
 		yield return new WaitForSeconds(2);
 		change=false;
 
-		if(TestManager.cat1Life<=0)catThumb1.GetComponent<Image>().CrossFadeColor(new Color32 (100,100,100,255),1,true,false);
-		if(TestManager.cat2Life<=0)catThumb2.GetComponent<Image>().CrossFadeColor(new Color32 (100,100,100,255),1,true,false);
-		if(TestManager.cat3Life<=0)catThumb3.GetComponent<Image>().CrossFadeColor(new Color32 (100,100,100,255),1,true,false);
+		if(GameplayVariableHandler.cat1Life <= 0)catThumb1.GetComponent<Image>().CrossFadeColor(new Color32 (100,100,100,255),1,true,false);
+		if(GameplayVariableHandler.cat2Life <= 0)catThumb2.GetComponent<Image>().CrossFadeColor(new Color32 (100,100,100,255),1,true,false);
+		if(GameplayVariableHandler.cat3Life <= 0)catThumb3.GetComponent<Image>().CrossFadeColor(new Color32 (100,100,100,255),1,true,false);
 
 	}
 
@@ -42,9 +42,9 @@ public class CatUIController : MonoBehaviour {
 	
 		if(change)
 		{
-			life1.GetComponent<Image>().fillAmount = Mathf.Lerp(life1.GetComponent<Image>().fillAmount, TestManager.cat1Life/4.00f,0.1f);
-			life2.GetComponent<Image>().fillAmount = Mathf.Lerp(life2.GetComponent<Image>().fillAmount, TestManager.cat2Life/4.00f,0.1f);
-			life3.GetComponent<Image>().fillAmount = Mathf.Lerp(life3.GetComponent<Image>().fillAmount, TestManager.cat3Life/4.00f,0.1f);
+			life1.GetComponent<Image>().fillAmount = Mathf.Lerp(life1.GetComponent<Image>().fillAmount, GameplayVariableHandler.cat1Life / 4.00f,0.1f);
+			life2.GetComponent<Image>().fillAmount = Mathf.Lerp(life2.GetComponent<Image>().fillAmount, GameplayVariableHandler.cat2Life / 4.00f,0.1f);
+			life3.GetComponent<Image>().fillAmount = Mathf.Lerp(life3.GetComponent<Image>().fillAmount, GameplayVariableHandler.cat3Life / 4.00f,0.1f);
 		}  
                
 	}

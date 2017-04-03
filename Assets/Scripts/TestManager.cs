@@ -7,24 +7,27 @@ using UnityEngine.UI;
 public class TestManager : MonoBehaviour
 {
     public GameObject testCard, challengeButton, catCard, okButton, battleOkButton;
-    GameObject[] mapButtons, battlingCatImage;
+    public GameObject[] mapButtons, battlingCatImage;
     int[] catList;
     GameObject currentMonsterButton;
     public int testStat, diceNumberRandomizer, testDif;
-	public static int cat1Life = 4, cat2Life=4, cat3Life = 4;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
     public Text testText, dicesNumber, testNumber, testResult;
     public Button cat1Button, cat2Button, cat3Button;
-    int currentDisabledCat = 3, diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice = 7,
+    int diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice = 7, 
         diceTestRoll, battlingCat, monsterDif, testSuccessCounter = 0;
 	string catTested, diceInfo, bossDiceInfo;
     bool testSuccess = false;
 
     void Start()
     {
-        battlingCatImage = GameObject.FindGameObjectsWithTag("Battling Cat");
         mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
+    }
+
+    void Update()
+    {
+        battlingCatImage = GameObject.FindGameObjectsWithTag("Battling Cat");
     }
 
     public void TestGeneration(int currentLevel)
@@ -89,12 +92,17 @@ public class TestManager : MonoBehaviour
         testNumber.text = "" + testDif;
         //Changes the test values on the card
 
-        if (cat1Life > 0) cat1Button.interactable = true; else cat1Button.interactable = false;
-        if (cat2Life > 0) cat2Button.interactable = true; else cat2Button.interactable = false;
-        if (cat3Life > 0) cat3Button.interactable = true; else cat3Button.interactable = false;
-        //Temporarily enable all cats buttons but just if its life is not 0, if it is then disable it for good
+        cat1Button.interactable = true;
+        cat2Button.interactable = true;
+        cat3Button.interactable = true;
 
-        switch (currentDisabledCat)
+        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false;
+        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false;
+        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false;
+
+        //Temporarily enable all cats buttons but just if its life is not 0, if it is then disable it
+
+        switch (GameplayVariableHandler.lastUsedCat)
         {
             case 0:
                 cat1Button.interactable = false;
@@ -165,13 +173,13 @@ public class TestManager : MonoBehaviour
             switch (selectedCat)
             { 
                 case 0:
-                    cat1Life -= 1;
+                    GameObject.Find("Main Camera").GetComponent<GameplayVariableHandler>().changeLife(false, 0, 1);
                     break;
                 case 1:
-                    cat2Life -= 1;
+                    GameObject.Find("Main Camera").GetComponent<GameplayVariableHandler>().changeLife(false, 1, 1);
                     break;
                 case 2:
-                    cat3Life -= 1;
+                    GameObject.Find("Main Camera").GetComponent<GameplayVariableHandler>().changeLife(false, 2, 1);
                     break;
             }
         }
@@ -179,7 +187,7 @@ public class TestManager : MonoBehaviour
         okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
 
         GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("test",diceNumber, diceInfo, testDif);
-        currentDisabledCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
+        GameplayVariableHandler.lastUsedCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
     }
 
     public void ChangeCardImage()
@@ -323,13 +331,13 @@ public class TestManager : MonoBehaviour
             switch (battlingCat)
             {
                 case 0:
-                    cat1Life -= 1;
+                    GameObject.Find("Main Camera").GetComponent<GameplayVariableHandler>().changeLife(false, 0, 1);
                     break;
                 case 1:
-                    cat2Life -= 1;
+                    GameObject.Find("Main Camera").GetComponent<GameplayVariableHandler>().changeLife(false, 1, 1);
                     break;
                 case 2:
-                    cat3Life -= 1;
+                    GameObject.Find("Main Camera").GetComponent<GameplayVariableHandler>().changeLife(false, 2, 1);
                     break;
             }
         }
