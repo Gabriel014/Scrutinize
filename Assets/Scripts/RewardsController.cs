@@ -13,7 +13,8 @@ public class RewardsController : MonoBehaviour {
 		move=true;
 		type=cardType;
 		initialPosition=gameObject.GetComponent<Transform>();
-		StartCoroutine(AnimationStart());
+        transform.SetSiblingIndex(10);
+        StartCoroutine(AnimationStart());
 	}
 
 	void Update()

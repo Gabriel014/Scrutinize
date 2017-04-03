@@ -304,6 +304,19 @@ public class TestManager : MonoBehaviour
 
         print("Player Biggest Dice:" + playerBiggestDice + "||| Monster Biggest Dice:" + monsterBiggestDice);
         if (playerBiggestDice >= monsterBiggestDice) testSuccess = true;
+
+        if (testSuccess)
+        {
+            testResult.color = Color.green;
+            testResult.text = "You win!!";
+        }
+
+        else
+        {
+            testResult.color = Color.red;
+            testResult.text = "You lose!!";
+        }
+
 		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("player",diceNumber, diceInfo, monsterBiggestDice);
 
         if (!testSuccess) {
