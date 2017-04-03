@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class TestManager : MonoBehaviour
 {
     public GameObject testCard, challengeButton, catCard, okButton, battleOkButton;
@@ -258,8 +259,8 @@ public class TestManager : MonoBehaviour
         monsterBiggestDice = 0;
         playerBiggestDice = 0;
 
-        if (monsterButton.name == "boss1") monsterDif = 3;
-        if (monsterButton.name == "boss2") monsterDif = 4;
+		if (monsterButton.tag == "boss1") monsterDif = 3;
+        if (monsterButton.tag == "boss2") monsterDif = 4;
         //Add monster difficult for each monster prefab according to its name
 
         print("Dificuldade do Monstro: " + monsterDif);
@@ -351,8 +352,10 @@ public class TestManager : MonoBehaviour
         if (testSuccess)
         {
             //The artifact/trap/creature randomizer must be done in this if
-            Destroy(currentMonsterButton);
-            Destroy(gameObject);
+           // Destroy(currentMonsterButton);
+            //Destroy(gameObject);
+			currentMonsterButton.GetComponent<GameObject>();
+			currentMonsterButton.SetActive(false);
         }
         else
         {
