@@ -5,33 +5,60 @@ using UnityEngine;
 public class ArtifactsHandler : MonoBehaviour
 {
 
-    public static bool bravenessBonus, agilityBonus, cutenessBonus, diceBonus;
-    public static int bonusValue;
+    public static bool artifactOn, diceBonus;
+    public static int bonusValue, bonusAtb, diceBonusValue; //0 = Braveness, 1 = Agility, 2 = Cuteness
 
 
-    void bravenessNumericBonus(int bonusAmount)
+    public void bravenessNumericBonus(int bonusAmount)
     {
-        bravenessBonus = true;
+        artifactOn = true;
+
+        bonusAtb = 0; //Braveness
         bonusValue = bonusAmount;
     }
 
-    void agilityNumericBonus(int bonusAmount)
+    public void agilityNumericBonus(int bonusAmount)
     {
-        agilityBonus = true;
+        artifactOn = true;
+
+        bonusAtb = 1; //Agility
         bonusValue = bonusAmount;
     }
 
-    void cutenessNumericBonus (int bonusAmount)
+    public void cutenessNumericBonus (int bonusAmount)
     {
-        cutenessBonus = true;
+        artifactOn = true;
+
+        bonusAtb = 2; //Cuteness
         bonusValue = bonusAmount;
     }
 
-    void diceBonusIncreaser (int extraDiceAmount)
+    public void diceBonusIncreaser (int extraDiceAmount)
     {
-        diceBonus = true;
-        bonusValue = extraDiceAmount;
+        artifactOn = true;
+
+        diceBonus = true; 
+        diceBonusValue = extraDiceAmount;
     }
 
+    public void resetDisabledCat()
+    {
+        GameplayVariableHandler.lastUsedCat = 3;
+    }
+
+    public void healLife(int healAmount)
+    {
+        GameplayVariableHandler.cat1Life += healAmount;
+        GameplayVariableHandler.cat2Life += healAmount;
+        GameplayVariableHandler.cat3Life += healAmount;
+
+    }
+
+    public static void resetBonuses()
+    {
+        artifactOn = false;
+        bonusValue = 0;
+        diceBonus = false;
+    }
 }
 

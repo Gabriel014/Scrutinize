@@ -15,8 +15,8 @@ public class TestManager : MonoBehaviour
     public bool defined = false;
     public Text testText, dicesNumber, testNumber, testResult;
     public Button cat1Button, cat2Button, cat3Button;
-    int diceRoll, diceNumber, playerBiggestDice = 0, monsterBiggestDice = 7, 
-        diceTestRoll, battlingCat, monsterDif, testSuccessCounter = 0;
+    int diceRoll, diceNumber = 0, playerBiggestDice = 0, monsterBiggestDice = 7, 
+        diceTestRoll = 0, battlingCat, monsterDif, testSuccessCounter = 0;
 	string catTested, diceInfo, bossDiceInfo;
     bool testSuccess = false;
 
@@ -146,16 +146,24 @@ public class TestManager : MonoBehaviour
                 break;
         }
 		diceInfo="";
-        diceNumber = int.Parse(catTested.Substring(testStat, 1));
+        diceNumber += int.Parse(catTested.Substring(testStat, 1)); 
+        //The number of dices will be equal to the cat atb on the atb being tested
+        if (ArtifactsHandler.diceBonus) diceNumber += ArtifactsHandler.diceBonusValue;
+        //If there is any dice bonus artifact, add the amount of bonus dice on the total dices which will be rolled
         print("N de dados: " + diceNumber);
         testCard.GetComponent<Animator>().Play("CatSelection");
         for (int i = 0; i < diceNumber; i++)
         {
-            diceTestRoll = Random.Range(1, 7);
+            diceTestRoll += Random.Range(1, 7); //Roll a d6 
+            if (ArtifactsHandler.bonusAtb == testStat) diceTestRoll += ArtifactsHandler.bonusValue;
+            //If the atb being tested is equal the current atb getting a bonus, add that bonus on the dice result
             diceInfo += diceTestRoll;
             print("Resultado da Rolagem: " + diceTestRoll);
             if (diceTestRoll >= testDif) testSuccessCounter += 1;
+            diceTestRoll = 0; //Resets the value of the rolled number
         }
+        diceNumber = 0;
+        ArtifactsHandler.resetBonuses(); //Reset all bonus added in this test
 
         if (testSuccessCounter >= diceNumberRandomizer)
         {
@@ -288,9 +296,15 @@ public class TestManager : MonoBehaviour
                 break;
         }
 
-        diceNumber = int.Parse(catTested.Substring(testStat, 1)); //The atb used to battle is always the last atb used for a test
+
+        diceNumber += int.Parse(catTested.Substring(testStat, 1));
+        //The number of dices will be equal to the cat atb on the atb being tested
+        if (ArtifactsHandler.diceBonus) diceNumber += ArtifactsHandler.diceBonusValue;
+        //If there is any dice bonus artifact, add the amount of bonus dice on the total dices which will be rolled
+
         print("N de dados: " + diceNumber);
 		bossDiceInfo="";
+
         for (int i = 0; i < monsterDif; i++)
         {
             diceTestRoll = Random.Range(1, 7);
@@ -298,17 +312,21 @@ public class TestManager : MonoBehaviour
             print("Monster Roll" + diceTestRoll);
             if (diceTestRoll > monsterBiggestDice) monsterBiggestDice = diceTestRoll;
         }
-		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("boss",monsterDif, bossDiceInfo,monsterBiggestDice);
 
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("boss",monsterDif, bossDiceInfo,monsterBiggestDice);
 
         diceInfo = "";
         for (int i = 0; i < diceNumber; i++)
         {
-            diceTestRoll = Random.Range(1, 7);
-            print("Player Roll:" + diceTestRoll);
+            diceTestRoll += Random.Range(1, 7); //Roll a d6 
+            if (ArtifactsHandler.bonusAtb == testStat) diceTestRoll += ArtifactsHandler.bonusValue;
+            //If the atb being tested is equal the current atb getting a bonus, add that bonus on the dice result
             diceInfo += diceTestRoll;
             if (diceTestRoll > playerBiggestDice) playerBiggestDice = diceTestRoll;
+            diceTestRoll = 0; //Resets the value of the rolled number
         }
+        diceNumber = 0;
+        ArtifactsHandler.resetBonuses(); //Reset all bonus added in this test
 
         print("Player Biggest Dice:" + playerBiggestDice + "||| Monster Biggest Dice:" + monsterBiggestDice);
         if (playerBiggestDice >= monsterBiggestDice) testSuccess = true;
