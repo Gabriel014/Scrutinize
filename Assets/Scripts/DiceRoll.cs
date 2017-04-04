@@ -85,7 +85,7 @@ public class DiceRoll : MonoBehaviour {
 			
 		for(int i = 0; i < bossDices.Count; i++)
 		{
-			if(int.Parse(diceInfos.Substring(i,1))>=testDif) bossDices[i].GetComponent<Image>().color = new Color32 (0,195,0,255);
+			if(int.Parse(diceInfos.Substring(i,1))>=testDif) bossDices[i].GetComponent<Image>().color = new Color32 (195,195,0,255);
 		}
 	}
 }

@@ -22,6 +22,9 @@ public class TestManager : MonoBehaviour
 
     void Start()
     {
+		cat1Button.GetComponent<Image>().sprite=ButtonController.catThumb1;
+		cat2Button.GetComponent<Image>().sprite=ButtonController.catThumb2;
+		cat3Button.GetComponent<Image>().sprite=ButtonController.catThumb3;
         mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
     }
 

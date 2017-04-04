@@ -25,7 +25,7 @@ public class RewardsController : MonoBehaviour {
 			transform.position=Vector3.MoveTowards(initialPosition.position,new Vector3(0,0,0),step);
 		}
 
-		if(transform.position==new Vector3(0,0,0)){
+		if(transform.position==new Vector3(0,0,0)&&type=="boss"){
 			gameObject.GetComponent<Animator>().enabled=true;
 			gameObject.GetComponent<Animator>().Play("bossAnimation");
 			
