@@ -30,9 +30,7 @@ public class RewardsController : MonoBehaviour {
 			gameObject.GetComponent<Animator>().Play("bossAnimation");
 			
 		}
-
-			
-					
+        				
 	}
 	IEnumerator AnimationStart()
 	{
@@ -44,6 +42,7 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="trap")
 		{
+
 		}
 		if(type=="boss")
 		{
