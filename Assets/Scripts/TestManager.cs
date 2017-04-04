@@ -157,12 +157,12 @@ public class TestManager : MonoBehaviour
             diceTestRoll += Random.Range(1, 7); //Roll a d6 
             if (ArtifactsHandler.bonusAtb == testStat) diceTestRoll += ArtifactsHandler.bonusValue;
             //If the atb being tested is equal the current atb getting a bonus, add that bonus on the dice result
+            if (diceTestRoll > 6) diceTestRoll = 6;
             diceInfo += diceTestRoll;
             print("Resultado da Rolagem: " + diceTestRoll);
             if (diceTestRoll >= testDif) testSuccessCounter += 1;
             diceTestRoll = 0; //Resets the value of the rolled number
         }
-        diceNumber = 0;
         ArtifactsHandler.resetBonuses(); //Reset all bonus added in this test
 
         if (testSuccessCounter >= diceNumberRandomizer)
@@ -234,6 +234,7 @@ public class TestManager : MonoBehaviour
 
     public void OkButton()
     {
+        diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
         testResult.enabled = false;
 
@@ -321,11 +322,11 @@ public class TestManager : MonoBehaviour
             diceTestRoll += Random.Range(1, 7); //Roll a d6 
             if (ArtifactsHandler.bonusAtb == testStat) diceTestRoll += ArtifactsHandler.bonusValue;
             //If the atb being tested is equal the current atb getting a bonus, add that bonus on the dice result
+            if (diceTestRoll > 6) diceTestRoll = 6;
             diceInfo += diceTestRoll;
             if (diceTestRoll > playerBiggestDice) playerBiggestDice = diceTestRoll;
             diceTestRoll = 0; //Resets the value of the rolled number
         }
-        diceNumber = 0;
         ArtifactsHandler.resetBonuses(); //Reset all bonus added in this test
 
         print("Player Biggest Dice:" + playerBiggestDice + "||| Monster Biggest Dice:" + monsterBiggestDice);
@@ -367,12 +368,11 @@ public class TestManager : MonoBehaviour
         }
 
         battleOkButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
-        
-
     }
 
     public void BattleOkButton()
     {
+        diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
         testResult.enabled = false;
 

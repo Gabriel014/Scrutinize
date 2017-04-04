@@ -24,7 +24,7 @@ public class LevelConstructor : MonoBehaviour {
 				switch(i)//adiciona um prefab random respectivo
 				{
 				case 0:
-					selectedObjects.Add(foods[Random.Range(0,itens.Count)]);
+					selectedObjects.Add(foods[Random.Range(0,foods.Count)]);
 					break;
 				case 1:
 					selectedObjects.Add(itens[Random.Range(0,itens.Count)]);

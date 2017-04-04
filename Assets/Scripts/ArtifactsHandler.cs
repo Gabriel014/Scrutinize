@@ -12,6 +12,7 @@ public class ArtifactsHandler : MonoBehaviour
     public void bravenessNumericBonus(int bonusAmount)
     {
         artifactOn = true;
+        print("Braveness Bonus");
 
         bonusAtb = 0; //Braveness
         bonusValue = bonusAmount;
@@ -20,6 +21,7 @@ public class ArtifactsHandler : MonoBehaviour
     public void agilityNumericBonus(int bonusAmount)
     {
         artifactOn = true;
+        print("Agility Bonus");
 
         bonusAtb = 1; //Agility
         bonusValue = bonusAmount;
@@ -28,6 +30,7 @@ public class ArtifactsHandler : MonoBehaviour
     public void cutenessNumericBonus (int bonusAmount)
     {
         artifactOn = true;
+        print("Cuteness Bonus");
 
         bonusAtb = 2; //Cuteness
         bonusValue = bonusAmount;
@@ -36,6 +39,7 @@ public class ArtifactsHandler : MonoBehaviour
     public void diceBonusIncreaser (int extraDiceAmount)
     {
         artifactOn = true;
+        print("Dice Bonus");
 
         diceBonus = true; 
         diceBonusValue = extraDiceAmount;
@@ -43,11 +47,13 @@ public class ArtifactsHandler : MonoBehaviour
 
     public void resetDisabledCat()
     {
+        print("Reset Disabled Cat");
         GameplayVariableHandler.lastUsedCat = 3;
     }
 
     public void healLife(int healAmount)
     {
+        print("Heal Life");
         GameplayVariableHandler.cat1Life += healAmount;
         GameplayVariableHandler.cat2Life += healAmount;
         GameplayVariableHandler.cat3Life += healAmount;
