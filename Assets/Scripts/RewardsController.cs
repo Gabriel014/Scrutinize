@@ -44,7 +44,6 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="trap")
 		{
-
 		}
 		if(type=="boss")
 		{

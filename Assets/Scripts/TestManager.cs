@@ -253,8 +253,7 @@ public class TestManager : MonoBehaviour
         if (testSuccess)
         {
             testText.text = "";
-            gameObject.GetComponent<Image>().enabled = false;
-            gameObject.GetComponent<Button>().enabled = false;
+            gameObject.transform.localScale = new Vector3(0f, 0f);
             testCard.GetComponent<Animator>().Play("New State");
             //The artifact/trap/creature randomizer must be done in this if
         }
