@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RewardsController : MonoBehaviour {
-	string type;
+	[HideInInspector]
+	public string type;
+	public int subType;
 	public float speed;
 	bool move=false;
+	[HideInInspector]
 	public Transform initialPosition;
+	//bool samePosition;
+
 	public void ShowCard(string cardType)
 	{
 		//tipo de carta posto no prefab.
@@ -25,11 +30,11 @@ public class RewardsController : MonoBehaviour {
 			transform.position=Vector3.MoveTowards(initialPosition.position,new Vector3(0,0,0),step);
 		}
 
-		if(transform.position==new Vector3(0,0,0)&&type=="boss"){
-			gameObject.GetComponent<Animator>().enabled=true;
-			gameObject.GetComponent<Animator>().Play("bossAnimation");
-			
-		}
+//		if(transform.position==new Vector3(0,0,0)&&type=="boss"){
+//			gameObject.GetComponent<Animator>().enabled=true;
+//			gameObject.GetComponent<Animator>().Play("bossAnimation");
+//			
+//		}
         				
 	}
 	IEnumerator AnimationStart()
@@ -39,6 +44,7 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="item")
 		{
+			GameObject.Find("Inventory Button").GetComponent<InventoryManager>().AddItem(gameObject);
 		}
 		if(type=="trap")
 		{
@@ -46,9 +52,12 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="boss")
 		{
-			yield return new WaitForSeconds(2);
+			//yield return new WaitForSeconds(2);
+			yield return new WaitUntil(()=>Vector3.SqrMagnitude(transform.position - new Vector3(0,0,0))<0.0001);
 			GameObject.Find("Test Button").GetComponent<TestManager>().BattleManager(gameObject);//aciona o script do TestManager e coloca como referencia esse GameObject
 			move=false;
+			gameObject.GetComponent<Animator>().enabled=true;
+			gameObject.GetComponent<Animator>().Play("bossAnimation");
 		}
 
 	}

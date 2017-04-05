@@ -15,7 +15,7 @@ public class ShowCardZoom : MonoBehaviour {
 		case 1:
 			gameObject.GetComponent<Image>().sprite = ButtonController.catCard2;
 			break;
-		case 3:
+		case 2:
 			gameObject.GetComponent<Image>().sprite = ButtonController.catCard3;
 			break;
 		}
