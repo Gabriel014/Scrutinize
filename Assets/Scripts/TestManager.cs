@@ -6,19 +6,23 @@ using UnityEngine.UI;
 
 public class TestManager : MonoBehaviour
 {
-    public GameObject testCard, challengeButton, catCard, okButton, battleOkButton;
+    public GameObject testCard, challengeButton, catCard, okButton;
     public GameObject[] mapButtons, battlingCatImage;
     int[] catList;
-    GameObject currentMonsterButton;
+    GameObject currentMonsterButton, battleOkButton;
     public int testStat, diceNumberRandomizer, testDif;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
-    public Text testText, dicesNumber, testNumber, testResult;
+    public Text testText, dicesNumber, testNumber;
     public Button cat1Button, cat2Button, cat3Button;
     int diceRoll, diceNumber = 0, playerBiggestDice = 0, monsterBiggestDice = 7, 
         diceTestRoll = 0, battlingCat, monsterDif, testSuccessCounter = 0;
 	string catTested, diceInfo, bossDiceInfo;
-    bool testSuccess = false;
+    [HideInInspector]
+    public bool testSuccess = false;
+    Text testResult;
+    [HideInInspector]
+    public static bool showButton;
 
     void Start()
     {
@@ -26,6 +30,9 @@ public class TestManager : MonoBehaviour
 		cat2Button.GetComponent<Image>().sprite=ButtonController.catThumb2;
 		cat3Button.GetComponent<Image>().sprite=ButtonController.catThumb3;
         mapButtons = GameObject.FindGameObjectsWithTag("Map Button");
+
+        battleOkButton = GameObject.Find("Battle OK Button");
+        testResult = GameObject.Find("TestResult").GetComponent<Text>();
     }
 
     void Update()
@@ -194,10 +201,8 @@ public class TestManager : MonoBehaviour
                     break;
             }
         }
-
-        okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
-
-        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("test",diceNumber, diceInfo, testDif);
+        
+        GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("test",diceNumber, diceInfo, testDif, okButton);
         GameplayVariableHandler.lastUsedCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
     }
 
@@ -237,6 +242,8 @@ public class TestManager : MonoBehaviour
 
     public void OkButton()
     {
+        gameObject.GetComponent<MoveTestButton>().ReturnInitialPosition();
+        showButton = false;
         diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
         testResult.enabled = false;
@@ -278,8 +285,12 @@ public class TestManager : MonoBehaviour
         monsterBiggestDice = 0;
         playerBiggestDice = 0;
 
-		if (monsterButton.tag == "boss1") monsterDif = 3;
-        if (monsterButton.tag == "boss2") monsterDif = 4;
+		if (monsterButton.name.Substring(0, 2) == "01" || monsterButton.name.Substring(0, 2) == "02") monsterDif = 2;
+        if (monsterButton.name.Substring(0, 2) == "03" || monsterButton.name.Substring(0, 2) == "04") monsterDif = 3;
+        if (monsterButton.name.Substring(0, 2) == "05" || monsterButton.name.Substring(0, 2) == "06" || monsterButton.name.Substring(1, 2) == "07") monsterDif = 4;
+        if (monsterButton.name.Substring(0, 2) == "08") monsterDif = 5;
+
+
         //Add monster difficult for each monster prefab according to its name
 
         print("Dificuldade do Monstro: " + monsterDif);
@@ -316,7 +327,7 @@ public class TestManager : MonoBehaviour
             if (diceTestRoll > monsterBiggestDice) monsterBiggestDice = diceTestRoll;
         }
 
-		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("boss",monsterDif, bossDiceInfo,monsterBiggestDice);
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("boss",monsterDif, bossDiceInfo,monsterBiggestDice,battleOkButton);
 
         diceInfo = "";
         for (int i = 0; i < diceNumber; i++)
@@ -346,7 +357,7 @@ public class TestManager : MonoBehaviour
             testResult.text = "You lose!!";
         }
 
-		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("player",diceNumber, diceInfo, monsterBiggestDice);
+		GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("player",diceNumber, diceInfo, monsterBiggestDice, battleOkButton);
 
         if (!testSuccess) {
             switch (battlingCat)
@@ -368,12 +379,11 @@ public class TestManager : MonoBehaviour
             PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold") + Random.Range(20, 50));
             print("Battle Successful!");
         }
-
-        battleOkButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
     }
 
     public void BattleOkButton()
     {
+        showButton = false;
         diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
         testResult.enabled = false;

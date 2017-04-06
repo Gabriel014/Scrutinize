@@ -13,8 +13,9 @@ public class RewardsController : MonoBehaviour {
 	[HideInInspector]
 	public Transform initialPosition;
 	public Sprite cardImage;
-
-    public AudioClip cardFlip, battleCry, diceRoll;
+    [Header("Audio Settings")]
+    public AudioClip cardFlip;
+    public AudioClip battleCry, diceRoll;
     public AudioSource audioToBePlayed;
 	//bool samePosition;
 

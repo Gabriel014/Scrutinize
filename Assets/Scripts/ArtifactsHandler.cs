@@ -66,5 +66,22 @@ public class ArtifactsHandler : MonoBehaviour
         bonusValue = 0;
         diceBonus = false;
     }
+
+    public void bottleOfMilk()
+    {
+        int catRandomizer = Random.Range(1, 4);
+        switch (catRandomizer)
+        {
+            case 1:
+                GameplayVariableHandler.cat1Life = 3;
+                break;
+            case 2:
+                GameplayVariableHandler.cat2Life = 3;
+                break;
+            case 3:
+                GameplayVariableHandler.cat3Life = 3;
+                break;
+        }
+    }
 }
 

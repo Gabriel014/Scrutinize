@@ -14,14 +14,14 @@ public class DiceRoll : MonoBehaviour {
 	///diceNumber = numero de dados,<para></para>
 	///diceInfos = valores dos dados,<para></para>
 	///testDif = dificuldade do teste (maior dado para o boss) </summary>
-	public void RollDices(string type, int diceNumber, string diceInfos, int testDif){
+	public void RollDices(string type, int diceNumber, string diceInfos, int testDif, GameObject okButton){
 		
 		t=GameObject.Find("Canvas").GetComponent<Transform>();
-		if(type=="player"||type=="test")StartCoroutine(StartRollPlayer(type, diceNumber,diceInfos,testDif));
+		if(type=="player"||type=="test")StartCoroutine(StartRollPlayer(type, diceNumber,diceInfos,testDif, okButton));
 		if(type=="boss")StartCoroutine(StartRollBoss(diceNumber,diceInfos,testDif));
 	}
 
-	public IEnumerator StartRollPlayer(string type, int diceNumber, string diceInfos, int testDif)
+	public IEnumerator StartRollPlayer(string type, int diceNumber, string diceInfos, int testDif, GameObject okButton)
 	{
 		if(type=="player")yield return new WaitForSeconds(3);
         catDiceposition = 7;
@@ -51,8 +51,9 @@ public class DiceRoll : MonoBehaviour {
 		{
 			if(int.Parse(diceInfos.Substring(i,1))>=testDif) catDices[i].GetComponent<Image>().color = new Color32 (0,195,0,255);
 			else catDices[i].GetComponent<Image>().color = new Color32 (195,0,0,255);
-		}
+        }
 
+        okButton.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
         testResult.enabled = true;
 		GameObject.Find("Cats_HUD").GetComponent<CatUIController>().LifechangeAnimation();
         print(catDices.Count);

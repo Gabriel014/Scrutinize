@@ -22,13 +22,13 @@ public class BagItemController : MonoBehaviour {
 			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().diceBonusIncreaser(1);
 			break;
 		case 2:
-			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bravenessNumericBonus(1);
+			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bravenessNumericBonus(2);
 			break;
 		case 3:
-			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().agilityNumericBonus(1);
+			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().agilityNumericBonus(2);
 			break;
 		case 4:
-			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().cutenessNumericBonus(1);
+			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().cutenessNumericBonus(2);
 			break;
 		case 5:
 			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().resetDisabledCat();
@@ -36,8 +36,17 @@ public class BagItemController : MonoBehaviour {
 		case 6:
 			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().healLife(1);
 			break;
-		}
-		gameObject.GetComponent<Image>().sprite=inventoryBg;
+        case 7:
+            GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bottleOfMilk();
+            break;
+        case 8:
+            GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bravenessNumericBonus(1);
+            GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().agilityNumericBonus(1);
+            GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().cutenessNumericBonus(1);
+            break;
+
+        }
+        gameObject.GetComponent<Image>().sprite=inventoryBg;
 		gameObject.GetComponent<Button>().interactable=false;
 		GameObject.Find("Inventory Button").GetComponent<InventoryManager>().index[posicao]=0;
 	}
