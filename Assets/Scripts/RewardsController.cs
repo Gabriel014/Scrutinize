@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RewardsController : MonoBehaviour {
-	[HideInInspector]
-	public string type;
+    [HideInInspector]
+    public string type;
 	public int subType;
 	public float speed;
 	bool move=false;
 	[HideInInspector]
 	public Transform initialPosition;
+
+    public AudioClip cardFlip, battleCry, diceRoll;
+    public AudioSource audioToBePlayed;
 	//bool samePosition;
 
 	public void ShowCard(string cardType)
 	{
-		//tipo de carta posto no prefab.
+        //tipo de carta posto no prefab.
+        audioToBePlayed = GetComponent<AudioSource>();
 		move=true;
 		type=cardType;
 		initialPosition=gameObject.GetComponent<Transform>();
@@ -58,6 +62,18 @@ public class RewardsController : MonoBehaviour {
 			move=false;
 			gameObject.GetComponent<Animator>().enabled=true;
 			gameObject.GetComponent<Animator>().Play("bossAnimation");
+
+            audioToBePlayed.clip = cardFlip;
+            audioToBePlayed.PlayDelayed(0.15f);
+            yield return new WaitForSeconds(0.4f);
+
+            audioToBePlayed.clip = battleCry;
+            audioToBePlayed.PlayDelayed(0.5f);
+            yield return new WaitForSeconds(0.7f);
+
+            audioToBePlayed.clip = diceRoll;
+            audioToBePlayed.PlayDelayed(0.75f);
+            
 		}
 
 	}
