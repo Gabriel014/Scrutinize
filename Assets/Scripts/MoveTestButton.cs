@@ -18,7 +18,7 @@ public class MoveTestButton : MonoBehaviour
 
     public void Clicked()
     {
-        gameObject.transform.parent.transform.SetSiblingIndex(14);
+        gameObject.transform.parent.transform.SetSiblingIndex(13);
         move = true;
     }
 
