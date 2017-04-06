@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RewardsController : MonoBehaviour {
     [HideInInspector]
@@ -8,8 +9,10 @@ public class RewardsController : MonoBehaviour {
 	public int subType;
 	public float speed;
 	bool move=false;
+	float step;
 	[HideInInspector]
 	public Transform initialPosition;
+	public Sprite cardImage;
 
     public AudioClip cardFlip, battleCry, diceRoll;
     public AudioSource audioToBePlayed;
@@ -30,7 +33,7 @@ public class RewardsController : MonoBehaviour {
 	{
 		if(move)
 		{
-			float step = speed+Time.deltaTime;
+			step = speed*30*Time.deltaTime;
 			transform.position=Vector3.MoveTowards(initialPosition.position,new Vector3(0,0,0),step);
 		}
 
@@ -48,7 +51,18 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="item")
 		{
-			GameObject.Find("Inventory Button").GetComponent<InventoryManager>().AddItem(gameObject);
+			yield return new WaitUntil(()=>Vector3.SqrMagnitude(transform.position - new Vector3(0,0,0))<0.0001);
+			gameObject.GetComponent<Animator>().enabled=true;
+			//gameObject.GetComponent<Animator>().SetBool("Flip", true);
+			yield return new WaitUntil(()=>transform.eulerAngles.y>=89);
+			gameObject.GetComponent<Image>().sprite=cardImage;
+			yield return new WaitUntil(()=>transform.eulerAngles.y<=0.2);
+			gameObject.GetComponent<Animator>().SetBool("ZoomCard",true);
+			yield return new WaitUntil(()=>transform.localScale.y >=15f);
+			gameObject.GetComponent<Animator>().SetBool("GoToBag", true);
+			yield return new WaitUntil(()=>transform.localScale.y <=0.1f);
+			gameObject.SetActive(false);
+			//GameObject.Find("Inventory Button").GetComponent<InventoryManager>().AddItem(gameObject);
 		}
 		if(type=="trap")
 		{

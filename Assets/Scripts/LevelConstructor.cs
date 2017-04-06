@@ -57,7 +57,7 @@ public class LevelConstructor : MonoBehaviour {
 	{
 		for(int i=0; i<selectedObjects.Count;i++){
 			GameObject temp = Instantiate(selectedObjects[i]) as GameObject;
-			temp.transform.SetParent(GameObject.Find("rewardCards").transform,true);
+			temp.transform.SetParent(GameObject.Find("rewardCards").transform,false);
 			temp.GetComponent<RectTransform>().localPosition = new Vector2(positionsX[i],positionsY[i]);
 			selectedObjects[i]=temp;
 		}
