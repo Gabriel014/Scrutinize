@@ -75,7 +75,7 @@ public class RewardsController : MonoBehaviour {
 			gameObject.GetComponent<Animator>().SetBool("GoToBag", true);
 			yield return new WaitUntil(()=>transform.localScale.y <=0.1f);
 			gameObject.SetActive(false);
-			//GameObject.Find("Inventory Button").GetComponent<InventoryManager>().AddItem(gameObject);
+			GameObject.Find("Inventory Button").GetComponent<InventoryManager>().AddItem(gameObject);
 		}
 		if(type=="trap")
 		{

@@ -20,7 +20,7 @@ public class TestManager : MonoBehaviour
 	string catTested, diceInfo, bossDiceInfo;
     [HideInInspector]
     public bool testSuccess = false;
-    Text testResult;
+    public Text testResult;
     [HideInInspector]
     public static bool showButton;
 
@@ -129,6 +129,7 @@ public class TestManager : MonoBehaviour
         //Then disables the last used cat button
 
         testCard.GetComponent<Animator>().Play("Show"); //Play the animation which shows the challenge card
+		testResult.GetComponent<Transform>().SetSiblingIndex(16);
         foreach (GameObject obj in mapButtons)
         {
             obj.GetComponent<Button>().interactable = false; //Disable all other buttons but the cats
