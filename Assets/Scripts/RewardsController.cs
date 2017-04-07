@@ -49,6 +49,18 @@ public class RewardsController : MonoBehaviour {
 	{
 		if(type=="food")
 		{
+			yield return new WaitUntil(()=>Vector3.SqrMagnitude(transform.position - new Vector3(0,0,0))<0.0001);
+			gameObject.GetComponent<Animator>().enabled=true;
+			//gameObject.GetComponent<Animator>().SetBool("Flip", true);
+			yield return new WaitUntil(()=>transform.eulerAngles.y>=89);
+			gameObject.GetComponent<Image>().sprite=cardImage;
+			yield return new WaitUntil(()=>transform.eulerAngles.y<=0.2);
+			gameObject.GetComponent<Animator>().SetBool("ZoomCard",true);
+			yield return new WaitUntil(()=>transform.localScale.y >=15f);
+			gameObject.GetComponent<Animator>().SetBool("GoToPrize", true);
+			yield return new WaitUntil(()=>transform.localScale.y <=0.1f);
+			gameObject.SetActive(false);
+			GameObject.Find("PrizesHUD").GetComponent<FoodController>().FindFood();
 		}
 		if(type=="item")
 		{
