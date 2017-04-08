@@ -27,6 +27,8 @@ public class RewardsController : MonoBehaviour {
 		type=cardType;
 		initialPosition=gameObject.GetComponent<Transform>();
         transform.SetSiblingIndex(10);
+		transform.SetParent(GameObject.Find("Canvas").transform,false);
+		transform.SetAsLastSibling();
         StartCoroutine(AnimationStart());
 	}
 
