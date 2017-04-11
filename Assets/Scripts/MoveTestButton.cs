@@ -6,19 +6,19 @@ public class MoveTestButton : MonoBehaviour
 {
 
     bool move = false;
-    [HideInInspector]
-    public Transform initialPosition;
+    public Vector3 initialPosition;
+    public GameObject thisButton;
 
     // Use this for initialization
 
     void Start()
     {
-        initialPosition = gameObject.transform.parent.GetComponent<Transform>();
+        initialPosition = thisButton.transform.parent.GetComponent<Transform>().position;
     }
 
     public void Clicked()
     {
-        gameObject.transform.parent.transform.SetSiblingIndex(13);
+        thisButton.transform.parent.transform.SetSiblingIndex(13);
         move = true;
     }
 
@@ -27,12 +27,15 @@ public class MoveTestButton : MonoBehaviour
     {
         if (move)
         {
-            gameObject.transform.parent.transform.position = new Vector3(0, 0, 0);
+            thisButton.transform.parent.transform.position = new Vector3(0, 0, 0);
         }
     }
 
     public void ReturnInitialPosition()
     {
-        gameObject.transform.parent.transform.position = initialPosition.position;
+        move = false;
+        print("Returning to Initial Position!");
+        print(initialPosition);
+        thisButton.transform.parent.transform.position = initialPosition;
     }
 }

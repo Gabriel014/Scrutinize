@@ -9,7 +9,7 @@ public class TestManager : MonoBehaviour
     public GameObject testCard, challengeButton, catCard, okButton;
     public GameObject[] mapButtons, battlingCatImage;
     int[] catList;
-    GameObject currentMonsterButton, battleOkButton;
+    GameObject battleOkButton;
     public int testStat, diceNumberRandomizer, testDif;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
@@ -23,6 +23,7 @@ public class TestManager : MonoBehaviour
     public Text testResult;
     [HideInInspector]
     public static bool showButton;
+    public GameObject currentMonsterButton;
 
     void Start()
     {
@@ -275,9 +276,16 @@ public class TestManager : MonoBehaviour
         }
     }
 
+
+
     public void BattleManager(GameObject monsterButton) {
 
-        currentMonsterButton = monsterButton;
+        GameObject[] testButtons = GameObject.FindGameObjectsWithTag("Map Button");
+
+        foreach (GameObject obj in testButtons)
+        {
+            obj.GetComponent<TestManager>().currentMonsterButton = monsterButton;
+        }
 
         testSuccess = false;
 
@@ -380,6 +388,9 @@ public class TestManager : MonoBehaviour
             PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold") + Random.Range(20, 50));
             print("Battle Successful!");
         }
+
+        print(currentMonsterButton);
+
     }
 
     public void BattleOkButton()
