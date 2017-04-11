@@ -9,7 +9,7 @@ public class TestManager : MonoBehaviour
     public GameObject testCard, challengeButton, catCard, okButton;
     public GameObject[] mapButtons, battlingCatImage;
     int[] catList;
-    GameObject battleOkButton;
+    GameObject battleOkButton, rewardCards, currentMonsterButton;
     public int testStat, diceNumberRandomizer, testDif;
     public List<Sprite> catImage, challengeImage;
     public bool defined = false;
@@ -23,7 +23,6 @@ public class TestManager : MonoBehaviour
     public Text testResult;
     [HideInInspector]
     public static bool showButton;
-    public GameObject currentMonsterButton;
 
     void Start()
     {
@@ -43,6 +42,8 @@ public class TestManager : MonoBehaviour
 
     public void TestGeneration(int currentLevel)
     {
+        rewardCards = GameObject.Find("rewardCards");
+        rewardCards.SetActive(false);
         if (!defined)
         {
             testStat = Random.Range(0, 3); //0 = Braveness, 1 = Agility, 2 = Cuteness
@@ -244,6 +245,7 @@ public class TestManager : MonoBehaviour
 
     public void OkButton()
     {
+        rewardCards.SetActive(true);
         gameObject.GetComponent<MoveTestButton>().ReturnInitialPosition();
         showButton = false;
         diceNumber = 0;
