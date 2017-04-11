@@ -4,38 +4,46 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SettingsController : MonoBehaviour {
 
-	private Animator anim;
-	private bool isSettings = false;
-	public List<Button>otherButtons;
+	private Animator animSettings, animCredits;
+	private bool isSettings = false, isCredits = false;
+
 
 	void Start()
 	{
-		anim = gameObject.GetComponent<Animator>();
-		anim.enabled = false;
-
+		animSettings = gameObject.GetComponent<Animator>();
+		animSettings.enabled = false;
+		animCredits = GameObject.Find("Credits_Panel").GetComponent<Animator>();
+		animCredits.enabled = false;
 	}
 	public void SettingsOn()
 	{
 		if(!isSettings)
 		{
-			foreach (Button item in otherButtons)
+			if(isCredits)
 			{
-				item.GetComponent<Button>().interactable = false;
+				isCredits = false;
+				animCredits.Play("Settings_Panel_Out");
 			}
-			anim.enabled = true;
-			anim.Play("Settings_Panel_On");
-			isSettings = true;
-		
+			else
+			{
+				animSettings.enabled = true;
+				animSettings.Play("Settings_Panel_On");
+				isSettings = true;
+			}
 		}
 		else
 		{
-			foreach (Button item in otherButtons)
-			{
-				item.GetComponent<Button>().interactable = true;
-			}
-			anim.enabled = true;
-			anim.Play("Settings_Panel_Out");
+			animSettings.enabled = true;
+			animSettings.Play("Settings_Panel_Out");
 			isSettings = false;
 		}
+	}
+	public void CreditsOn()
+	{
+		animSettings.Play("Settings_Panel_Out");
+		isSettings = false;
+		animCredits.enabled = true;
+		isCredits = true;
+		animCredits.Play("Settings_Panel_On");
 	}
 }
