@@ -85,23 +85,36 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="boss")
 		{
-			//yield return new WaitForSeconds(2);
 			yield return new WaitUntil(()=>Vector3.SqrMagnitude(transform.position - new Vector3(0,0,0))<0.0001);
+			gameObject.GetComponent<Animator>().enabled=true;
+			//gameObject.GetComponent<Animator>().SetBool("Flip", true);
+			yield return new WaitUntil(()=>transform.eulerAngles.y>=89);
+			gameObject.GetComponent<Image>().sprite=cardImage;
+			yield return new WaitUntil(()=>transform.eulerAngles.y<=0.2);
+			gameObject.GetComponent<Animator>().SetBool("ZoomCard",true);
+			yield return new WaitUntil(()=>transform.localScale.y >=15f);
+			
+			gameObject.GetComponent<Animator>().Play("bossAnimation");
+			audioToBePlayed.clip = cardFlip;
+			audioToBePlayed.PlayDelayed(0.15f);
+			yield return new WaitForSeconds(0.4f);
+			
+			audioToBePlayed.clip = battleCry;
+			audioToBePlayed.PlayDelayed(0.5f);
+			yield return new WaitForSeconds(0.7f);
+			
+			audioToBePlayed.clip = diceRoll;
+			audioToBePlayed.PlayDelayed(0.75f);
 			GameObject.Find("Test Button").GetComponent<TestManager>().BattleManager(gameObject);//aciona o script do TestManager e coloca como referencia esse GameObject
 			move=false;
-			gameObject.GetComponent<Animator>().enabled=true;
-			gameObject.GetComponent<Animator>().Play("bossAnimation");
 
-            audioToBePlayed.clip = cardFlip;
-            audioToBePlayed.PlayDelayed(0.15f);
-            yield return new WaitForSeconds(0.4f);
+		
+			gameObject.GetComponent<Animator>().SetBool("BossEnd", true);
+			yield return new WaitUntil(()=>transform.localScale.y <=0.1f);
+			gameObject.SetActive(false);
+		
+			//yield return new WaitForSeconds(2);
 
-            audioToBePlayed.clip = battleCry;
-            audioToBePlayed.PlayDelayed(0.5f);
-            yield return new WaitForSeconds(0.7f);
-
-            audioToBePlayed.clip = diceRoll;
-            audioToBePlayed.PlayDelayed(0.75f);
             
 		}
 
