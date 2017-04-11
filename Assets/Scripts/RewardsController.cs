@@ -85,7 +85,6 @@ public class RewardsController : MonoBehaviour {
 		}
 		if(type=="boss")
 		{
-
 			yield return new WaitUntil(()=>Vector3.SqrMagnitude(transform.position - new Vector3(0,0,0))<0.0001);
 			gameObject.GetComponent<Animator>().enabled=true;
 			//gameObject.GetComponent<Animator>().SetBool("Flip", true);
