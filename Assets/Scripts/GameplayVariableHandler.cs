@@ -35,7 +35,7 @@ public class GameplayVariableHandler : MonoBehaviour
                 case 1:
                     cat2Life += amount;
                     break;
-                case 3:
+                case 2:
                     cat3Life += amount;
                     break;
             }
@@ -51,7 +51,7 @@ public class GameplayVariableHandler : MonoBehaviour
                 case 1:
                     cat2Life -= amount;
                     break;
-                case 3:
+                case 2:
                     cat3Life -= amount;
                     break;
             }

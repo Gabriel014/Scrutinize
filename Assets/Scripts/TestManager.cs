@@ -281,12 +281,11 @@ public class TestManager : MonoBehaviour
 
 
     public void BattleManager(GameObject monsterButton) {
-
-        GameObject[] testButtons = GameObject.FindGameObjectsWithTag("Map Button");
-
-        foreach (GameObject obj in testButtons)
+        
+        foreach (GameObject obj in mapButtons)
         {
             obj.GetComponent<TestManager>().currentMonsterButton = monsterButton;
+            obj.GetComponent<Button>().interactable = false;
         }
 
         testSuccess = false;
@@ -390,13 +389,16 @@ public class TestManager : MonoBehaviour
             PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold") + Random.Range(20, 50));
             print("Battle Successful!");
         }
-
-        print(currentMonsterButton);
-
     }
 
     public void BattleOkButton()
     {
+
+        foreach (GameObject obj in mapButtons)
+        {
+            obj.GetComponent<Button>().interactable = true;
+        }
+
         showButton = false;
         diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
