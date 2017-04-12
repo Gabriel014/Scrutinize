@@ -37,7 +37,7 @@ public class BagItemController : MonoBehaviour {
 			GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().healLife(1);
 			break;
         case 7:
-            GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bottleOfMilk();
+            GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bottleOfMilk(3);
             break;
         case 8:
             GameObject.Find("Main Camera").GetComponent<ArtifactsHandler>().bravenessNumericBonus(1);

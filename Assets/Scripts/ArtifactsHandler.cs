@@ -67,19 +67,22 @@ public class ArtifactsHandler : MonoBehaviour
         diceBonus = false;
     }
 
-    public void bottleOfMilk()
+    public void bottleOfMilk(int amount)
     {
         int catRandomizer = Random.Range(1, 4);
         switch (catRandomizer)
         {
             case 1:
-                GameplayVariableHandler.cat1Life = 3;
+                GameplayVariableHandler.cat1Life += amount;
+                if (GameplayVariableHandler.cat1Life > 4) GameplayVariableHandler.cat1Life = 4;
                 break;
             case 2:
-                GameplayVariableHandler.cat2Life = 3;
+                GameplayVariableHandler.cat2Life += amount;
+                if (GameplayVariableHandler.cat2Life > 4) GameplayVariableHandler.cat2Life = 4;
                 break;
             case 3:
-                GameplayVariableHandler.cat3Life = 3;
+                GameplayVariableHandler.cat3Life += amount;
+                if (GameplayVariableHandler.cat3Life > 4) GameplayVariableHandler.cat3Life = 4;
                 break;
         }
     }
