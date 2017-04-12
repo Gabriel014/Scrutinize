@@ -104,13 +104,9 @@ public class TestManager : MonoBehaviour
         testNumber.text = "" + testDif;
         //Changes the test values on the card
 
-        cat1Button.interactable = true;
-        cat2Button.interactable = true;
-        cat3Button.interactable = true;
-
-        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false;
-        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false;
-        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false;
+        if (GameplayVariableHandler.cat1Life <= 0) cat1Button.interactable = false; else cat1Button.interactable = true;
+        if (GameplayVariableHandler.cat2Life <= 0) cat2Button.interactable = false; else cat2Button.interactable = true;
+        if (GameplayVariableHandler.cat3Life <= 0) cat3Button.interactable = false; else cat3Button.interactable = true;
 
         //Temporarily enable all cats buttons but just if its life is not 0, if it is then disable it
 
@@ -204,9 +200,10 @@ public class TestManager : MonoBehaviour
                     break;
             }
         }
-        
+
         GameObject.Find("Main Camera").GetComponent<DiceRoll>().RollDices("test",diceNumber, diceInfo, testDif, okButton);
         GameplayVariableHandler.lastUsedCat = selectedCat; //Sets the disabled cat for the next challenge (the cat used this turn)
+        diceNumber = 0;
     }
 
     public void ChangeCardImage()
@@ -247,7 +244,6 @@ public class TestManager : MonoBehaviour
     {
         gameObject.GetComponent<MoveTestButton>().ReturnInitialPosition();
         showButton = false;
-        diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
         testResult.enabled = false;
 		GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(0,0,0);
@@ -393,13 +389,13 @@ public class TestManager : MonoBehaviour
         }
 
         print(currentMonsterButton);
+        diceNumber = 0;
 
     }
 
     public void BattleOkButton()
     {
         showButton = false;
-        diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
 		GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(0,0,0);
         testResult.enabled = false;
