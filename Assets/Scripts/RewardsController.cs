@@ -27,6 +27,7 @@ public class RewardsController : MonoBehaviour {
 		type=cardType;
 		initialPosition=gameObject.GetComponent<Transform>();
         transform.SetSiblingIndex(10);
+		GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(1,1,1);
 		transform.SetParent(GameObject.Find("Canvas").transform,false);
 		transform.SetAsLastSibling();
         StartCoroutine(AnimationStart());
@@ -62,6 +63,7 @@ public class RewardsController : MonoBehaviour {
 			gameObject.GetComponent<Animator>().SetBool("GoToPrize", true);
 			yield return new WaitUntil(()=>transform.localScale.y <=0.1f);
 			gameObject.SetActive(false);
+			GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(0,0,0);
 			GameObject.Find("PrizesHUD").GetComponent<FoodController>().FindFood();
 		}
 		if(type=="item")
@@ -77,6 +79,7 @@ public class RewardsController : MonoBehaviour {
 			gameObject.GetComponent<Animator>().SetBool("GoToBag", true);
 			yield return new WaitUntil(()=>transform.localScale.y <=0.1f);
 			gameObject.SetActive(false);
+			GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(0,0,0);
 			GameObject.Find("Inventory Button").GetComponent<InventoryManager>().AddItem(gameObject);
 		}
 		if(type=="trap")

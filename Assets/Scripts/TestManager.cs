@@ -43,10 +43,11 @@ public class TestManager : MonoBehaviour
 
     public void TestGeneration(int currentLevel)
     {
+		transform.parent.transform.SetSiblingIndex(16);
         if (!defined)
         {
             testStat = Random.Range(0, 3); //0 = Braveness, 1 = Agility, 2 = Cuteness
-
+				 
             diceNumberRandomizer = Random.Range(currentLevel-2 , currentLevel + 1); //Randomizes the test dice amount
             if (diceNumberRandomizer < 1) diceNumberRandomizer = 1;
 
@@ -128,7 +129,7 @@ public class TestManager : MonoBehaviour
                 break;
         }
         //Then disables the last used cat button
-
+		GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(1,1,1);
         testCard.GetComponent<Animator>().Play("Show"); //Play the animation which shows the challenge card
 		testResult.GetComponent<Transform>().SetSiblingIndex(16);
         foreach (GameObject obj in mapButtons)
@@ -249,6 +250,7 @@ public class TestManager : MonoBehaviour
         diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
         testResult.enabled = false;
+		GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(0,0,0);
 
         foreach (GameObject obj in diceList)
         {
@@ -273,6 +275,7 @@ public class TestManager : MonoBehaviour
         {
             //Reset all animations
             testCard.GetComponent<Animator>().Play("New State");
+			transform.parent.transform.SetSiblingIndex(5);
         }
     }
 
@@ -398,6 +401,7 @@ public class TestManager : MonoBehaviour
         showButton = false;
         diceNumber = 0;
         GameObject[] diceList = GameObject.FindGameObjectsWithTag("dice");
+		GameObject.Find("notInteractPanel").GetComponent<Transform>().localScale = new Vector3(0,0,0);
         testResult.enabled = false;
 
         foreach (GameObject obj in diceList)
